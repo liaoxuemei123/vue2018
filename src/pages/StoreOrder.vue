@@ -2,7 +2,7 @@
 <template>
     <div class="page-container">
         <div class="store-page page" flex="dir:top box:first">
-            <search 
+            <search
                 placeholder="搜索4S店"
                 :search="search.bind(this)"
             />
@@ -252,7 +252,7 @@
                             this.cityInfo.code = data.data[0]
                         }
                         res();
-                    })  
+                    })
                 })
             }).then(()=>{
                 this.getStoreList(() => {

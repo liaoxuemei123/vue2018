@@ -223,7 +223,7 @@
                                 }else{
 
                                 }
-                                
+
                             }
                             this.submitOrder();
                         });
@@ -259,7 +259,7 @@
                     refereeType:this.userInfo.refereeType,
                     refereeCode:this.agentLogo?this.agentLogo:'',
                     qd:this.qd || '',
-                    
+
                 },(data)=>{
                     if(data.code == 200){
                         this.$router.push({path:'/orderpay/'+data.data});
@@ -352,7 +352,7 @@
             left:0;
             right:0;
             background-color:rgba(0,0,0,0.4);
-        }         
+        }
         .user-license{
             font-size:0.51rem;
             line-height:1.5em;
@@ -381,7 +381,7 @@
                     padding:0;
                     list-style:none;
                     & li{
-                        padding-left:0; 
+                        padding-left:0;
                         text-indent:2em;
                         margin-top:0.2rem;
                     }

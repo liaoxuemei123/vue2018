@@ -100,11 +100,11 @@
                                     <div class="add-button del-car" @click="deletecar">
                                         删除
                                     </div>
-                                    
+
                                     <div class="add-button edit-car" @click="addCar" style="margin-right: 0.7rem;">
                                         修改
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                 <!-- <mini-setmanage></mini-setmanage> -->
                 <transition name="slide-up">
 		            <div class="down-list"  v-show="pickerShow">
-		                
+
 		                <div class="toolbar" flex="dir:left box:mean">
 		                    <div class="cancel" v-tap="closeDialog" flex="dir:left cross:center main:left">
 		                        取消
@@ -265,8 +265,8 @@
                 carInfo:({
                     subscribe
                 }) => subscribe.carInfo,
-                carList1:({ 
-                    packageinfo 
+                carList1:({
+                    packageinfo
                 }) => packageinfo.carList1,
                 wbyQd: ({
                     pageconfig
@@ -313,7 +313,7 @@
                 // this.$nextTick(()=>{
                     self.editactive = -1;
                 // });
-                
+
             },
             deletecar:function(){
                 var self = this;
@@ -333,7 +333,7 @@
                                 Tool.removeLocalItem('manmodelName');
                                 Tool.removeLocalItem('manmodel');
                                 Tool.removeLocalItem('manmodelBack');
-                                
+
                             }//删除默认车辆
                             Toast({
                                 duration:1000,
@@ -357,7 +357,7 @@
                         }
                     })
                 },() => {});
-                
+
             },
             goBack:function(){
                 Tool.localItem('isSelectCarBack',true);
@@ -376,7 +376,7 @@
                         self.active = data.data.length - 1;
                     }
                     callback && callback();
-                }) 
+                })
             },
             selectTime:function(){
                 this.$refs.datepicker.open();
@@ -496,7 +496,7 @@
                     this.addInfo.code = this.carModel.code
                     this.addInfo.type = this.carModel.vehicleType;
                     this.addInfo.vehicle_type_id = this.carModel.id
-                    
+
                 }
                 this.pickerShow = false;
                 // if(this.carModel.typeName === '长安欧尚'){
@@ -543,7 +543,7 @@
                         duration:1000,
                     });
                     return false;
-                } 
+                }
                 Tool.post("AaUserVehicleAdd",{
                     user_id:Tool.getUserInfo('userId'),
                     vin,
@@ -751,7 +751,7 @@
                     Tool.localItem('manmodelName',data.seriesName);
                 	this.$router.back();
                 }
-                
+
             },
             ...mapMutations({
                 reset: 'UPDATE_RESET',
@@ -814,7 +814,7 @@
         deactivated:function(){
             this.pickerShow = false;
         },
-        
+
     }
 </script>
 <style lang="less">
@@ -875,7 +875,7 @@
                     margin: 0 3%;
                 }
             }
-            
+
             .button-group{
                 position:absolute;
                 bottom:0;
@@ -963,9 +963,9 @@
                                     height:1.2rem;
                                     width:2.2rem;
                                     line-height: 1.2rem;
-                                    background-color:#fc4c1b; 
+                                    background-color:#fc4c1b;
                                 }
-                               
+
                             }
                             .input-control{
                                 position:relative;
@@ -994,7 +994,7 @@
                                     font-size:1rem;
                                     color:#888;
                                 }
-                                
+
                             }
                         }
                     }

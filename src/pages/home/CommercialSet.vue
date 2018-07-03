@@ -204,8 +204,8 @@
         },
         computed:{
             ...mapState({
-                carList:({ 
-                    packageinfo 
+                carList:({
+                    packageinfo
                 }) => packageinfo.carList,
                 modelInfo:({
                     packageinfo
@@ -264,7 +264,7 @@
                     }else{
                         realData = pData.data;
                     }
-                    
+
                     const data = realData;
                     var type = [];
                     var serise = [];

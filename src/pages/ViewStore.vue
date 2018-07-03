@@ -1,7 +1,7 @@
 <template>
     <div class="page-container">
         <div class="store-page page" flex="dir:top box:first">
-            <search 
+            <search
                 placeholder="搜索服务门店"
                 :search="search.bind(this)"
             />

@@ -106,7 +106,7 @@
             </div>
         </div>
         <transition name="fade">
-            <div class="picture-modal" v-if="showpic"  @click="showpic=false" 
+            <div class="picture-modal" v-if="showpic"  @click="showpic=false"
             @touchstart.prevent="slideStart" @touchmove.prevent="slideMove" @touchend.prevent="slideEnd"
             >
                 <div class="pickture-mask">
@@ -206,7 +206,7 @@
         },
         beforeRouteEnter:(to,from,next)=>{
             Tool.routerEnter(to,from,next)
-        },   
+        },
     }
 </script>
 <style lang="less" scoped>

@@ -181,8 +181,8 @@
         },
         computed:{
             ...mapState({
-                carList:({ 
-                    packageinfo 
+                carList:({
+                    packageinfo
                 }) => packageinfo.carList,
                 modelInfo:({
                     packageinfo
@@ -364,7 +364,7 @@
                     Tool.localItem("wy_version",'');
                 }
             }
-            
+
         },
         activated:function(){
             this.getPackageList(this.modelInfo.id);

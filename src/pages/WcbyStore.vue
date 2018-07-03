@@ -1,7 +1,7 @@
 <template>
     <div class="page-container">
         <div class="store-page page" flex="dir:top box:first">
-            <self-search 
+            <self-search
                 placeholder="搜索服务门店"
                 :search="search.bind(this)"
             />
@@ -122,7 +122,7 @@
                 this.pagenation.page++;
                 var wbpId = this.$route.query.wbpId;
                 // var wbpId = 'f7491065-5c6e-11e7-8995-3464a93301f7';
-                
+
 
 
                 Tool.get('getStore',{
@@ -244,7 +244,7 @@
                     if(this.$route.name != 'index' && this.$route.name !='selectplate' && position.address.city) {
                         Tool.post("citycount",{city:position.address.city,province:position.address.province},(data)=>{})
                     }
-                }); 
+                });
             }catch(e){
                 console.warn(e);
             }
@@ -259,7 +259,7 @@
             }
         },
         activated:function(){
-           
+
             // this.getStoreList();
             this.getCityList(()=>{
                 this.citylist[0].values = this.cityData.provinces;

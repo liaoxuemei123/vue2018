@@ -189,8 +189,8 @@
         },
         computed:{
             ...mapState({
-                carList:({ 
-                    packageinfo 
+                carList:({
+                    packageinfo
                 }) => packageinfo.carList,
                 modelInfo:({
                     packageinfo

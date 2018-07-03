@@ -1,7 +1,7 @@
 <template>
 	<div class="page-container">
 		<div class="register-page page" flex="dir:top box:first">
-			<nav-bar 
+			<nav-bar
 				title="长安通行证注册"
 			/>
 			<div class="page-content" :style="{'background-image':'url('+require('../assets/bg.png')+')'}">
@@ -328,7 +328,7 @@
 			text-align: center;
 			margin-left: 5%;
 			background-color: #e5e5e5;
-		}	
+		}
 	}
 		.input-tip{
 			width: 70%;
@@ -343,7 +343,7 @@
 			margin-top: 0.386rem;
 			background-color:#03A9F4;
 			text-align: center;
-			line-height: 1.5rem;	
+			line-height: 1.5rem;
 			color: white;
 		}
 		.register-btn{

@@ -45,10 +45,10 @@
                     />
                 </div>
                 <div class="input-control" v-if="selectTitle == '1' && needReceipt == '0'">
-                    <inp-com title="纳税人识别号" :req="true" :value="receiptCode" maxlength="20" placeholder="请输入纳税人识别号(必填)" :onBlur="updateCode.bind(this)" /> 
+                    <inp-com title="纳税人识别号" :req="true" :value="receiptCode" maxlength="20" placeholder="请输入纳税人识别号(必填)" :onBlur="updateCode.bind(this)" />
                 </div>
                 <div class="des"  v-if="selectTitle == '1' && needReceipt == '0'" style="padding-top: 0.4rem;padding-bottom: 0.4rem;">*请认真填写公司名称及纳税人识别号，一旦提交无法修改</div>
-                
+
                 <div v-if="needReceipt == '0'">
                     <div class="input-control" v-if="selectTitle == '0'">
                         <inp-com
@@ -90,7 +90,7 @@
                         </div>
                         <!-- <div class="input-control" @click="cityShow = !cityShow">
                             <inp-com
-                                type="text" 
+                                type="text"
                                 title="公司地址"
                                 readonly
                                 placeholder="请选择公司地址"
@@ -150,7 +150,7 @@
     .page-container{
         height:100%;
         position:absolute;
-        width:100%;  
+        width:100%;
         .down-list-mask{
             width:100%;
             height:100%;
@@ -230,7 +230,7 @@
                     }
                     .meal-list{
                         border-top:1px solid #d9d9d9;
-                        padding-bottom:0.2rem; 
+                        padding-bottom:0.2rem;
                         .meal-item{
                             height:1.5rem;
                             .iconfont{
@@ -527,7 +527,7 @@
                     // comAddress: (this.addressCont&&this.selectAddr)?(this.selectAddr+' '+this.addressCont):"",
                     param = {
                         byfId:this.orderNo,
-                        needReceipt:this.needReceipt, 
+                        needReceipt:this.needReceipt,
                         selectTitle:this.selectTitle,
                         comName: this.comName?this.comName:"",
                         receiptCode: this.receiptCode?this.receiptCode:"",
@@ -539,7 +539,7 @@
                 }else{
                     param = {
                         byfId:this.orderNo,
-                        needReceipt:this.needReceipt, 
+                        needReceipt:this.needReceipt,
                         selectTitle:this.selectTitle,
                         receiver: this.receiver?this.receiver:"",
                         receMobile: this.receMobile?this.receMobile:"",
@@ -603,7 +603,7 @@
             ...mapMutations({
                 setReceiptInfo: 'SET_RECEIPT_INFO',
             })
-            
+
         },
         activated:function(){
             var self = this;

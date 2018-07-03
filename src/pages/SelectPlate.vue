@@ -119,7 +119,7 @@
                         self.active = data.data.length - 1;
                     }
                     callback && callback();
-                }) 
+                })
             },
             getPickerList:function(){
                 var self = this;
@@ -163,7 +163,7 @@
                         duration:1000,
                     });
                     return false;
-                } 
+                }
                 Tool.post("AaUserVehicleUpdate",{
                     id,
                     vin,
@@ -202,7 +202,7 @@
                         duration:1000,
                     });
                     return false;
-                } 
+                }
                 var self = this;
                 Tool.post('AaUserVehicleAdd',{
                     user_id:this.mobile,
@@ -323,7 +323,7 @@
                     margin: 0 3%;
                 }
             }
-            
+
             .button-group{
                 position:absolute;
                 bottom:0;

@@ -1,11 +1,11 @@
 /**
  * @author flyerjay
- * vue组件间的广播与分发，模拟vue1.0的方法。 
+ * vue组件间的广播与分发，模拟vue1.0的方法。
  */
 function broadcast(componentName, eventName, params) {
   this.$children.forEach(child => {
     var name = child.$options.componentName;
-    
+
     if (name === componentName) {
       child.$emit.apply(child, [eventName].concat(params));
     } else {

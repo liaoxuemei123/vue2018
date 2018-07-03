@@ -88,7 +88,7 @@
                             <div>更多</div>
                             <i class="iconfont icon-little-arrow"></i>
                         </div>
-                        
+
                     </div>
                 </div> -->
             </div>
@@ -205,7 +205,7 @@
             // 有问题 刚进入页面的时候不一定没有值，离开页面也不能清空这个本地的值，因为从子页面返回必须要有值啊!!!!!!!!!
             // 还有选择车辆之后，修改vin相应的改变=》updateVIN的问题
             // 构造值吧
-            
+
             if(this.refereeStore && this.refereeStore.storeName){
                 if (this.refereeStore.storeName=='任意服务门店') {
                     Toast({
@@ -249,7 +249,7 @@
                             // 构造值
                         }
                     }
-                    
+
                 // }
             }
             else{
@@ -266,7 +266,7 @@
                     }
                 }
 
-                
+
                 $(this.$refs.onValiCode).hide();
                 $(this.$refs.getValiCode).show();
                 var mobile = Tool.getUserInfo('telephone'); //本地
@@ -490,7 +490,7 @@
                                     // 先判断orderTip，再看发不发请求,再根据请求判断
                                     if (this.orderTip==true) {
                                         // 判断是否一月内已购买了一单保养套餐
-                                        Tool.get('orderTip',{   
+                                        Tool.get('orderTip',{
                                             userId:Tool.getUserInfo('userId'),
                                             phone:Tool.getUserInfo('telephone')
                                         },(data)=>{
@@ -502,9 +502,9 @@
                                                     //     confirmButtonText: '确定',
                                                     //     showCancelButton: false
                                                     // }).then(action => {
-                                                        
+
                                                     // }).catch(err => {
-                                                        
+
                                                     // });
                                                     MessageBox({
                                                       title: '提示',
@@ -513,7 +513,7 @@
                                                       confirmButtonText: '确定',
                                                     });
                                                     this.updateOrderTip(false);
-                                                
+
                                             }else{ //没有则不做操作
                                                 this.$router.push({name:'confirmorder',params:this.$route.params});
                                                 Tool.localItem('vehicleInfo',{vin:this.userInfo.vin,engineNo:this.userInfo.motorId,userName:this.userInfo.contact})
@@ -588,7 +588,7 @@
                                 // 先判断orderTip，再看发不发请求,再根据请求判断
                                 if (this.orderTip==true) {
                                     // 判断是否一月内已购买了一单保养套餐
-                                    Tool.get('orderTip',{   
+                                    Tool.get('orderTip',{
                                         userId:Tool.getUserInfo('userId'),
                                         phone:Tool.getUserInfo('telephone')
                                     },(data)=>{
@@ -600,9 +600,9 @@
                                                 //     confirmButtonText: '确定',
                                                 //     showCancelButton: false
                                                 // }).then(action => {
-                                                    
+
                                                 // }).catch(err => {
-                                                    
+
                                                 // });
                                                 MessageBox({
                                                   title: '提示',
@@ -611,21 +611,21 @@
                                                   confirmButtonText: '确定',
                                                 });
                                                 this.updateOrderTip(false);
-                                            
+
                                         }else{ //没有则不做操作
                                             this.$router.push({name:'confirmorder',params:this.$route.params});
-                                
+
                                             Tool.localItem('vehicleInfo',{vin:this.userInfo.vin,engineNo:this.userInfo.motorId,userName:this.userInfo.contact})
                                         }
                                     })
 
                                 }else{
                                     this.$router.push({name:'confirmorder',params:this.$route.params});
-                                
+
                                     Tool.localItem('vehicleInfo',{vin:this.userInfo.vin,engineNo:this.userInfo.motorId,userName:this.userInfo.contact})
                                 }
                                 // this.$router.push({name:'confirmorder',params:this.$route.params});
-                                
+
                                 // Tool.localItem('vehicleInfo',{vin:this.userInfo.vin,engineNo:this.userInfo.motorId,userName:this.userInfo.contact})
                             }
                         })
@@ -743,7 +743,7 @@
             },
             submitReferee:function(){
                 if(this.refereeType == 0){
-                    this.setUserInfo({refereeType:this.refereeType,referee:this.storeName,refereeId:this.storeId})  
+                    this.setUserInfo({refereeType:this.refereeType,referee:this.storeName,refereeId:this.storeId})
                 }else if(this.refereeType == 1){
                     this.setUserInfo({refereeType:this.refereeType,referee:this.refereePhone,refereeId:''})
                 }else{
@@ -751,7 +751,7 @@
                 }
             },
             ...mapMutations({
-                updateUserInfon: 'UPDATE_USER_INFO', 
+                updateUserInfon: 'UPDATE_USER_INFO',
                 addUservehicle: 'ADD_USERVEHICLE',
                 setUserInfo:'UPDATE_USER_INFO',
                 hasgetedViheche: 'UPDATE_GETEDVEHICHE',
@@ -784,7 +784,7 @@
     .page-container{
         height:100%;
         position:absolute;
-        width:100%;  
+        width:100%;
     }
     .page{
         height:100%;
@@ -849,7 +849,7 @@
                     .iconmore{
                         text-align: right;
                         padding-top: 0.1rem;
-                        padding-bottom: 0.1rem; 
+                        padding-bottom: 0.1rem;
                     }
                     .icon-go{
                         color: #cfcfcf;
