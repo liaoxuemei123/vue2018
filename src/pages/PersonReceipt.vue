@@ -20,7 +20,7 @@
                         <span class="selected-oil" v-if="receiptTitle[selectTitle]">{{receiptTitle[selectTitle]}}</span>
                     </div>
                     <div class="meal-list" v-if="mealListShow">
-                        <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in receiptTitle" flex="dir:left cross:center">
+                        <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in receiptTitle" :key="index" flex="dir:left cross:center">
                             <i class="iconfont icon-select" v-if="selectTitle == index"></i>
                             <i class="iconfont icon-circle active" v-else="selectTitle == index"></i>
                             <div class="oil-item">{{item}}</div>

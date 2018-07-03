@@ -7,7 +7,7 @@
                 />
                 <div class="page-content">
                     <div class="car-list">
-                        <div class="own-item" v-for="(item,index) in ownList" flex="dir:left cross:center" @click="active=index">
+                        <div class="own-item" v-for="(item,index) in ownList" :key="index" flex="dir:left cross:center" @click="active=index">
                             <i class="iconfont icon-select active" v-if="active == index"></i>
                             <i class="iconfont icon-circle" v-else="active == index"></i>
                             <div class="car-series">{{item.vehicle_type}}</div>

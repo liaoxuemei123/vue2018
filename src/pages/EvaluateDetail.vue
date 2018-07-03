@@ -25,7 +25,7 @@
                     <div class="score-total" flex="dir:left cross:center">
                         <span>总体评分</span>
                         <div class="score-evaluate" flex="dir:left cross:center" ref="total">
-                            <div class="score-evaluate-item" v-for="i in [0,1,2,3,4]">
+                            <div class="score-evaluate-item" v-for="i in [0,1,2,3,4]" :key="i">
                                 <div class="iconfont-container">
                                     <i class="iconfont icon-start" v-if="evaluate.totalEvaluate - i >= 1"></i>
                                     <i class="iconfont icon-start" v-if="evaluate.totalEvaluate - i < 1 && evaluate.totalEvaluate - i > 0" :style="{'width':(evaluate.totalEvaluate - i) * 100 + '%'}"></i>
@@ -41,7 +41,7 @@
                         <div class="single-item" flex="dir:left cross:center">
                             <span>服务描述</span>
                             <div class="score-evaluate" flex="dir:left cross:center">
-                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]">
+                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i">
                                     <div class="iconfont icon-smile" v-if="i<=evaluate.serverAttitude"></div>
                                     <div class="iconfont icon-smile unhappy" v-else="i<=evaluate.serverAttitude"></div>
                                 </div>
@@ -51,7 +51,7 @@
                         <div class="single-item" flex="dir:left cross:center">
                             <span>专业水平</span>
                             <div class="score-evaluate" flex="dir:left cross:center">
-                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]">
+                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i">
                                     <div class="iconfont icon-smile" v-if="i<=evaluate.specialityLevel"></div>
                                     <div class="iconfont icon-smile unhappy" v-else="i<=evaluate.specialityLevel"></div>
                                 </div>
@@ -61,7 +61,7 @@
                         <div class="single-item" flex="dir:left cross:center">
                             <span>设施环境</span>
                             <div class="score-evaluate" flex="dir:left cross:center">
-                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]">
+                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i">
                                     <div class="iconfont icon-smile" v-if="i<=evaluate.facilityEvaluate"></div>
                                     <div class="iconfont icon-smile unhappy" v-else="i<=evaluate.facilityEvaluate"></div>
                                 </div>
@@ -71,7 +71,7 @@
                         <div class="single-item" flex="dir:left cross:center">
                             <span>软件操作</span>
                             <div class="score-evaluate" flex="dir:left cross:center">
-                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]">
+                                <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i">
                                     <div class="iconfont icon-smile" v-if="i<=evaluate.softwareOperate"></div>
                                     <div class="iconfont icon-smile unhappy" v-else="i<=evaluate.softwareOperate"></div>
                                 </div>
@@ -98,7 +98,7 @@
                         <div class="time">{{evaluate.createDate}}</div>
                     </div>
                     <div class="image-list" flex="dir:left cross:center">
-                        <div class="image-container" v-for="(item,index) in evaluate.attachment" @click="showPicture(index)">
+                        <div class="image-container" v-for="(item,index) in evaluate.attachment" @click="showPicture(index)" :key="index">
                             <img v-lazy="item">
                         </div>
                     </div>

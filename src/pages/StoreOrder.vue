@@ -17,7 +17,7 @@
                 <div class="store-list-container">
                     <div class="store-list" ref="$storeList">
                         <scroller>
-                            <div class="store-item" v-for="(item, index) in storelist">
+                            <div class="store-item" v-for="(item, index) in storelist" :key="index">
                                 <store-item :item="item" :onClick="selectItem.bind(this, index)" :active="index == select"/>
                             </div>
                             <div class="load-more" flex="dir:top cross:center main:center" v-if="pagenation.page*pagenation.pageSize < pagenation.totalCount">

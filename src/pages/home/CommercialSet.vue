@@ -30,12 +30,12 @@
             <transition name="fade">
                 <div class="show-content">
                 <i class="iconfont active" :class="listSwicth?'icon-weibiaoti2010102-copy':'icon-liebiaoqiehuan2'" v-tap="swicthList.bind(this)" style="width:2rem;text-align:center;font-size: 0.71rem;"></i>
-                    <div class="product-class" flex="dir:top" v-for="( item , index ) in products" v-if="item.wbpkName">
+                    <div class="product-class" flex="dir:top" v-for="( item , index ) in products" :key="index" v-if="item.wbpkName">
                         <div class="up-title title">
                             <span>{{item.wbpkName}}</span>
                         </div>
                         <div class="up">
-                            <div class="set-item" :class="listSwicth?'list1':'list2'" flex="dir:left box:mean" v-for="(sitem, sindex) in item.wbProducts">
+                            <div class="set-item" :class="listSwicth?'list1':'list2'" flex="dir:left box:mean" v-for="(sitem, sindex) in item.wbProducts" :key="sindex">
                                 <package-itemlisttwo :item="sitem" v-if="listSwicth" />
                                 <package-item :item="sitem" v-else="listSwicth" />
                             </div>

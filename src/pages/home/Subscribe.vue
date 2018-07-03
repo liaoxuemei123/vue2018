@@ -25,7 +25,7 @@
                 <span>
                   <i class="iconfont icon-title" v-if="subscribeInfo.fcmc.exchange.length > 0"></i>更换</span>
               </div>
-              <div class="fcmc-item" v-for="(item,index) in subscribeInfo.fcmc.exchange" flex="dir:left box:last" v-if="index < 4 || fcmcExpand">
+              <div class="fcmc-item" v-for="(item,index) in subscribeInfo.fcmc.exchange" :key="index" flex="dir:left box:last" v-if="index < 4 || fcmcExpand">
                 <div class="info">
                   <i class="iconfont icon-startstroke"></i>{{item}}</div>
               </div>
@@ -33,7 +33,7 @@
                 <span>
                   <i class="iconfont icon-title"></i>检查、清洗、调整</span>
               </div>
-              <div class="fcmc-item" v-for="(item,index) in subscribeInfo.fcmc.check" flex="dir:left box:last" v-if="fcmcExpand">
+              <div class="fcmc-item" v-for="(item,index) in subscribeInfo.fcmc.check" :key="index" flex="dir:left box:last" v-if="fcmcExpand">
                 <div class="info">
                   <i class="iconfont icon-startstroke"></i>{{item}}</div>
               </div>

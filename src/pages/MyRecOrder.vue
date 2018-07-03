@@ -20,7 +20,7 @@
                 <span>没有相关订单</span>
               </div>
               <scroller refMark='1'>
-                <div class="order-item" v-for="(item, index) in orderList">
+                <div class="order-item" v-for="(item, index) in orderList" :key="index">
                   <rec-order-item :item="item"></rec-order-item>
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pageAll)*pageSize < totalCountAll">

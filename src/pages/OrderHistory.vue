@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="history-list">
-          <div class="history-item" v-for="(item,index) in history">
+          <div class="history-item" v-for="(item,index) in history" :key="index">
             <div class="title" flex="dir:left cross:center main:justify">
               <div class="order-num">
                 预约编号：{{item.reservationNo}}

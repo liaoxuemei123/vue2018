@@ -17,7 +17,7 @@
                     <div class="container-content" flex="dir:top box:mean">
                         <div class="overflow-container" flex="dir:top box:mean">
                             <scroller>
-                                <div class="store-item" v-for="(item, index) in storelist">
+                                <div class="store-item" v-for="(item, index) in storelist" :key="index">
                                     <view-store-item :item="item"/>
                                 </div>
                                 <div class="load-more" flex="dir:top cross:center main:center" v-if="(pagenation.page + 1) * pagenation.pageSize < pagenation.totalCount">

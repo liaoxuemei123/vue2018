@@ -8,7 +8,7 @@
                 :goBack="goBack.bind(this)"
             />
             <div class="page-content">
-                <div class="input-container" v-show="pageConfig.fileds.length > 0" v-for="(item,index) in pageConfig.fileds">
+                <div class="input-container" v-show="pageConfig.fileds.length > 0" v-for="(item,index) in pageConfig.fileds" :key="index">
                     <div class="input-control" v-if="item == 'vin' && pageConfig.tags[index] == '1'" flex="dir:left cross:center">
                         <inp-com title="车架号" :value="userInfo.vin" placeholder="输入车架号或选择(不限大小写)" maxlength='17' :onBlur="updateVIN.bind(this)" />
                         <!-- dir:right box:mean -->

@@ -10,7 +10,7 @@
                         <div class="set-container">
                             <div class="set-image">
                                 <swiper>
-                                    <div class="swiper-slide" v-for="(item,index) in setResource.indexImgs">
+                                    <div class="swiper-slide" v-for="(item,index) in setResource.indexImgs" :key="index">
                                         <img :src="item" >
                                     </div>
                                 </swiper>
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-for="(item,index) in pageConfig.fileds" v-show="pageConfig.fileds.length > 0">
+                        <div v-for="(item,index) in pageConfig.fileds" :key="index" v-show="pageConfig.fileds.length > 0">
                             <div class="meal-list-container" v-if="item == 'meal' && pageConfig.tags[index] == 1">
                                 <div class="title"  v-tap.prevent="toggleMeal">
                                     <span>套餐机油选择</span>
@@ -37,7 +37,7 @@
                                     <i class="iconfont" :class="mealListShow?'icon-up':'icon-down'"></i>
                                 </div>
                                 <div class="meal-list" v-if="mealListShow">
-                                    <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in setMealList" flex="dir:left cross:center">
+                                    <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in setMealList" :key="index" flex="dir:left cross:center">
                                         <i class="iconfont icon-select" v-if="selectMeal == index"></i>
                                         <i class="iconfont icon-circle active" v-else="selectMeal == index"></i>
                                         <div class="oil-brand">{{item.wbplJyName}}</div>
@@ -56,7 +56,7 @@
                                     套餐信息
                                 </div>
                                 <div class="info-content">
-                                    <div class="image-cotainer" v-for="(item,index) in setResource.detailImgs">
+                                    <div class="image-cotainer" v-for="(item,index) in setResource.detailImgs" :key="index">
                                         <img :src="item" alt="">
                                     </div>
                                 </div>

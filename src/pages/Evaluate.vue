@@ -16,7 +16,7 @@
                         <div class="score-total" flex="dir:left cross:center">
                             <span>总体评分</span>
                             <div class="score-evaluate" flex="dir:left cross:center">
-                                <div class="score-evaluate-item" v-for="i in [0,1,2,3,4]">
+                                <div class="score-evaluate-item" v-for="i in [0,1,2,3,4]" :key="i">
                                     <div class="icon-cotainer">
                                         <i class="iconfont icon-start" v-if="totalEvaluate - i >= 1"></i>
                                         <i class="iconfont icon-start" v-if="totalEvaluate - i < 1 && totalEvaluate - i > 0" :style="{'width':(totalEvaluate - i) * 100 + '%'}"></i>
@@ -32,7 +32,7 @@
                             <div class="single-item" flex="dir:left cross:center">
                                 <span>服务描述</span>
                                 <div class="score-evaluate" flex="dir:left cross:center">
-                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" @click="serverAttitude = i">
+                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i" @click="serverAttitude = i">
                                         <div class="iconfont icon-smile" v-if="i<=serverAttitude"></div>
                                         <div class="iconfont icon-smile unhappy" v-else="i<=serverAttitude"></div>
                                     </div>
@@ -42,7 +42,7 @@
                             <div class="single-item" flex="dir:left cross:center">
                                 <span>专业水平</span>
                                 <div class="score-evaluate" flex="dir:left cross:center">
-                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" @click="specialityLevel = i">
+                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i" @click="specialityLevel = i">
                                         <div class="iconfont icon-smile" v-if="i<=specialityLevel"></div>
                                         <div class="iconfont icon-smile unhappy" v-else="i<=specialityLevel"></div>
                                     </div>
@@ -52,7 +52,7 @@
                             <div class="single-item" flex="dir:left cross:center">
                                 <span>设施环境</span>
                                 <div class="score-evaluate" flex="dir:left cross:center">
-                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" @click="facilityEvaluate = i">
+                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i" @click="facilityEvaluate = i">
                                         <div class="iconfont icon-smile" v-if="i<=facilityEvaluate"></div>
                                         <div class="iconfont icon-smile unhappy" v-else="i<=facilityEvaluate"></div>
                                     </div>
@@ -62,7 +62,7 @@
                             <div class="single-item" flex="dir:left cross:center">
                                 <span>软件操作</span>
                                 <div class="score-evaluate" flex="dir:left cross:center">
-                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" @click="softwareOperate = i">
+                                    <div class="score-evaluate-item" v-for="i in [1,2,3,4,5]" :key="i" @click="softwareOperate = i">
                                         <div class="iconfont icon-smile" v-if="i<=softwareOperate"></div>
                                         <div class="iconfont icon-smile unhappy" v-else="i<=softwareOperate"></div>
                                     </div>

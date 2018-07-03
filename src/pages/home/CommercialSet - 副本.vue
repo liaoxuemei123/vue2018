@@ -29,12 +29,12 @@
         <scroller>
             <transition name="fade">
                 <div class="show-content">
-                    <div class="product-class" v-for="( item , index ) in products" v-if="item.wbpkName">
+                    <div class="product-class" v-for="( item , index ) in products" :key="index" v-if="item.wbpkName">
                         <div class="up-title title">
                             <span>{{item.wbpkName}}</span>
                         </div>
                         <div class="up">
-                            <div class="set-item" v-for="(sitem, sindex) in item.wbProducts">
+                            <div class="set-item" v-for="(sitem, sindex) in item.wbProducts" :key="sindex">
                                 <package-item :item="sitem"/>
                             </div>
                         </div>

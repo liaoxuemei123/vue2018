@@ -37,7 +37,7 @@
         <div class="use-detail" v-if="orderInfo.status == 2">
           <div class="header">保养使用明细</div>
           <div class="use-list">
-            <div class="use-item" v-for="(item, index) in useList">
+            <div class="use-item" v-for="(item, index) in useList" :key="index">
               <div class="line" flex="dir:left cross:center main:justify">
                 <div>
                   <span class="index">{{index+1}}</span>

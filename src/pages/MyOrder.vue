@@ -6,7 +6,7 @@
         <div class="tab">
           <div class="tab-container">
             <div class="tab-item-container" flex="dir:left box:mean">
-              <div class="tab-item" @click="activeTab = index" v-for="(item, index) in tabs" flex="dir:left cross:center main:center" :class="{'active':index==activeTab}">
+              <div class="tab-item" @click="activeTab = index" v-for="(item, index) in tabs" :key="index" flex="dir:left cross:center main:center" :class="{'active':index==activeTab}">
                 <span>
                   {{item.label}}
                   <span v-if="item.value == 1 &&  orderUnPayCount > 0" class="unpay-order">{{orderUnPayCount > 9 ? orderUnPayCount : orderUnPayCount}}</span>
@@ -24,7 +24,7 @@
                 <span>没有相关订单</span>
               </div>
               <scroller refMark='0'>
-                <div class="order-item" v-for="(item, index) in orderList">
+                <div class="order-item" v-for="(item, index) in orderList" :key="index">
                   <order-item :item="item"></order-item>
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pageAll)*pageSize < totalCountAll">
@@ -41,7 +41,7 @@
                 <span>没有相关订单</span>
               </div>
               <scroller refMark='1'>
-                <div class="order-item" v-for="(item, index) in unpaidList">
+                <div class="order-item" v-for="(item, index) in unpaidList" :key="index">
                   <order-item :item="item"></order-item>
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pageUnpaid)*pageSize < totalCountUnpaid">
@@ -58,7 +58,7 @@
                 <span>没有相关订单</span>
               </div>
               <scroller refMark='2'>
-                <div class="order-item" v-for="(item, index) in paidList">
+                <div class="order-item" v-for="(item, index) in paidList" :key="index">
                   <order-item :item="item"></order-item>
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pagePaid)*pageSize < totalCountPaid">
@@ -75,7 +75,7 @@
                 <span>没有相关订单</span>
               </div>
               <scroller refMark='3'>
-                <div class="order-item" v-for="(item, index) in refundList">
+                <div class="order-item" v-for="(item, index) in refundList" :key="index">
                   <order-item :item="item"></order-item>
                 </div>
                 <div class="load-more" flex="dir:top cross:center main:center" v-if="(pageRefund)*pageSize < totalCountRefund">

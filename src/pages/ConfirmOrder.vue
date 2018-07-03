@@ -100,13 +100,13 @@
         </transition>
         <transition name="slide-up">
             <div class="user-license" v-if="licenseShow" flex="dir:top box:justify">
-                <div v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds">
+                <div v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds" :key="index">
                     <h5 v-if="item == 'wcxy' && pageConfig.tags[index] == 1">长安汽车基础保养套餐服务协议</h5>
                     <h5 v-if="item == 'scxy' && pageConfig.tags[index] == 1">长安欧尚基础保养套餐服务协议</h5>
                 </div>
                 <div class="container">
                     <span class="attention">重要须知：重庆长安车联科技有限公司在此特别提醒您仔细阅读本协议中的各项条款，您有权选择同意或者不同意本协议。</span>
-                    <div class="license-choose" v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds">
+                    <div class="license-choose" v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds" :key="index">
                         <ul v-if="item == 'wcxy' && pageConfig.tags[index] == 1">
                             <li>1.本套餐内容包括：更换机油、机油滤清器的零件费用及对应工时费，转向、驻车、制动等系统专项检查工时费。</li>
                             <li>2.本套餐使用时，如需增加其它项目或使用更高级别机油，客户需自行承担增加的零件和工时费用。</li>
@@ -128,7 +128,7 @@
                             <li>8.本套餐规定的保养次数使用完毕或保养套餐到期时，本协议终止。</li>
                         </ul>
                     </div>
-                    <footer v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds">
+                    <footer v-show="pageConfig.fileds.length" v-for="(item,index) in pageConfig.fileds" :key="index">
                         <div>重庆长安车联科技有限公司</div>
                         <!-- <div v-if="item == 'scxy' && pageConfig.tags[index] == 1">2017年7月1日</div> -->
                         <!-- <div v-if="item == 'wcxy' && pageConfig.tags[index] == 1">2017年4月1日</div> -->
