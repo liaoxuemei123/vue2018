@@ -1,11 +1,11 @@
 ## 框架说明
 - MVVM框架：vue2.0 + vuex2.0 + vue-router2.0 文档地址：[Vue官网](https://cn.vuejs.org/)
 - 布局：flex.css 文档地址：[Flex.css](https://cnodejs.org/topic/56d1148d9f876b7e6658579e)
-- 移动端高清方案：淘宝rem方案（不懂百度）
+- 移动端高清方案：淘宝rem方案
 - UI框架：mint-ui 文档地址：[饿了吗移动端UI框架Mint-ui](https://github.com/ElemeFE/mint-ui)
 ### 状态管理
 使用vuex作为状态管理的主要方式
-src/model/index.js 
+src/model/index.js
 src/model/modules/ 按照不同的模块整理划分状态
 在页面中引入mapState mapMutations进行管理
 如需引入modules/mixin/load
