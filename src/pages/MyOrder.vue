@@ -29,7 +29,7 @@
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pageAll)*pageSize < totalCountAll">
                   <div class="start-load" v-tap="loadMoreAll" v-if="allLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else="allLoad">加载中
+                  <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
                 </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pageUnpaid)*pageSize < totalCountUnpaid">
                   <div class="start-load" v-tap="loadMoreUnpaid" v-if="unpaidLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else="unpaidLoad">加载中
+                  <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
                 </div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="load-more" flex="dir:top cross:center" v-if="(pagePaid)*pageSize < totalCountPaid">
                   <div class="start-load" v-tap="loadMorePaid" v-if="paidLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else="paidLoad">加载中
+                  <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
                 </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="load-more" flex="dir:top cross:center main:center" v-if="(pageRefund)*pageSize < totalCountRefund">
                   <div class="start-load" v-tap="loadMoreRefund" v-if="refundLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else="refundLoad">加载中
+                  <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
                 </div>

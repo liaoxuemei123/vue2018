@@ -34,7 +34,7 @@
             <div class="up">
               <div class="set-item" :class="listSwicth?'list1':'list2'" flex="dir:left box:mean" v-for="(sitem, sindex) in item.wbProducts" :key="sindex">
                 <package-itemlisttwo :item="sitem" v-if="listSwicth" />
-                <package-item :item="sitem" v-else="listSwicth" />
+                <package-item :item="sitem" v-else />
               </div>
             </div>
           </div>

@@ -39,7 +39,7 @@
                                 <div class="meal-list" v-if="mealListShow">
                                     <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in setMealList" :key="index" flex="dir:left cross:center">
                                         <i class="iconfont icon-select" v-if="selectMeal == index"></i>
-                                        <i class="iconfont icon-circle active" v-else="selectMeal == index"></i>
+                                        <i class="iconfont icon-circle active" v-else></i>
                                         <div class="oil-brand">{{item.wbplJyName}}</div>
                                         <div class="oil-piece">{{item.wbplJyXh}}</div>
                                     </div>

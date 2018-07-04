@@ -10,7 +10,7 @@
                     <div class="car-list">
                         <div class="own-item"  v-for="(item,index) in ownList" :key="index" flex="dir:left cross:center" @click.capture="listClick(index)">
                             <i class="iconfont icon-select active" v-if="active == index"></i>
-                            <i class="iconfont icon-circle" v-else="active == index"></i>
+                            <i class="iconfont icon-circle" v-else></i>
                             <div class="car-series">{{item.vehicle_type}}</div>
                             <div class="car-plate">{{item.plate_no}}</div>
                             <div class="car-vin">{{item.vin}}</div>

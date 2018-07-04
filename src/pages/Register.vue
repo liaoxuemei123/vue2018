@@ -23,7 +23,7 @@
 						<input type="text" placeholder="请输入验证码" class="user-code" v-model="smsCode">
 					</div>
 					<div class="get-code" v-if="getCodeState">{{residueTime}}秒后重发</div>
-					<div class="get-code" v-else="getCodeState" @click="sendSmsCode">获取验证码</div>
+					<div class="get-code" v-else @click="sendSmsCode">获取验证码</div>
 				</div>
 				<div class="form-group">
 					<img src="../assets/user-pwd.png" class="pwd-picture">

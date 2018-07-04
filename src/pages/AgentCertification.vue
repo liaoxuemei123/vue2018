@@ -22,7 +22,7 @@
           <inp-com title="开户行省市" type="text" placeholder="请选择开户行省市" readonly :value="addr" />
           <span style="position:absolute;right:0.2rem;top: 0.6rem;">
             <i class="iconfont icon-up" v-if="cityShow"></i>
-            <i class="iconfont icon-down" v-else="cityShow"></i>
+            <i class="iconfont icon-down" v-else></i>
           </span>
         </div>
         <!-- <div class="qrCode" v-if="hasCode" style="position:relative;">

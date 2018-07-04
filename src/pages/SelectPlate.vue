@@ -9,7 +9,7 @@
                     <div class="car-list">
                         <div class="own-item" v-for="(item,index) in ownList" :key="index" flex="dir:left cross:center" @click="active=index">
                             <i class="iconfont icon-select active" v-if="active == index"></i>
-                            <i class="iconfont icon-circle" v-else="active == index"></i>
+                            <i class="iconfont icon-circle" v-else></i>
                             <div class="car-series">{{item.vehicle_type}}</div>
                             <div class="car-plate">{{item.plate_no}}</div>
                             <div class="car-vin">{{item.vin}}</div>
@@ -17,7 +17,7 @@
                         <div class="add-car">
                             <div class="default-show" flex="dir:left cross:center" @click="active = -1">
                                 <i class="iconfont icon-select active" v-if="active == -1"></i>
-                                <i class="iconfont icon-circle" v-else="active == -1"></i>
+                                <i class="iconfont icon-circle" v-else></i>
                                 <div class="title">我要添加车辆</div>
                             </div>
                             <div class="drop-down-form" v-if="active == -1" flex="dir:top main:center">

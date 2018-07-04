@@ -24,7 +24,7 @@
             </div>
             <div class="selector">
               <i class="iconfont icon-select" v-if="paymentMode==1"></i>
-              <i class="iconfont icon-circle" v-else="paymentMode==1"></i>
+              <i class="iconfont icon-circle" v-else></i>
             </div>
           </div>
           <div class="payment-item" flex="dir:left cross:center box:justify" @click="paymentMode=2">
@@ -37,7 +37,7 @@
             </div>
             <div class="selector">
               <i class="iconfont icon-select" v-if="paymentMode==2"></i>
-              <i class="iconfont icon-circle" v-else="paymentMode==2"></i>
+              <i class="iconfont icon-circle" v-else></i>
             </div>
           </div>
           <!-- <div class="payment-item" flex="dir:left cross:center box:justify" @click="paymentMode=3">

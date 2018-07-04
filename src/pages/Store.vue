@@ -8,7 +8,7 @@
             <input type="text" v-model="selectedCity" :placeholder="defaultLocation" readonly>
           </div>
           <i class="iconfont icon-up" v-if="cityShow"></i>
-          <i class="iconfont icon-down" v-else="cityShow"></i>
+          <i class="iconfont icon-down" v-else></i>
         </div>
         <div class="store-list-container">
           <div class="store-list" ref="$storeList">
@@ -18,7 +18,7 @@
               </div>
               <div class="load-more" flex="dir:top cross:center main:center" v-if="(pagenation.page + 1) * pagenation.pageSize < pagenation.totalCount">
                 <div class="start-load" v-tap="getMore" v-if="loadMore">加载更多</div>
-                <div flex="dir:left cross:center" v-else="loadMore">加载中
+                <div flex="dir:left cross:center" v-else>加载中
                   <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                 </div>
               </div>

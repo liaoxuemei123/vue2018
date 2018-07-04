@@ -2,7 +2,7 @@
   <div class="item-container" flex="dir:left cross:center box:first" v-tap="onClick">
     <div class="select" flex="main:right cross:center">
       <i class="iconfont icon-select" v-if="active"></i>
-      <i class="iconfont icon-circle active" v-else="active"></i>
+      <i class="iconfont icon-circle active" v-else></i>
     </div>
     <div class="store-info" flex="dir:left cross:center box:mean">
       <!--<div class="store-url">

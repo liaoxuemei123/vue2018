@@ -42,7 +42,7 @@
                   <div v-if="fcmcExpand">收起
                     <i class="iconfont icon-up"></i>
                   </div>
-                  <div v-else="fcmcExpand">展开更多
+                  <div v-else>展开更多
                     <i class="iconfont icon-down"></i>
                   </div>
                 </div>
