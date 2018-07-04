@@ -526,6 +526,7 @@ export default {
       height: 301px;
       border-radius: 3px;
       font-size: 16px;
+      user-select: none;
       -webkit-user-select: none;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;

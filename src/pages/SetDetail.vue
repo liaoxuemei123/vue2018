@@ -551,7 +551,6 @@
                         .iconfont{
                             height:1.6rem;
                             line-height:1.6rem;
-                            display:inline-block;
                             float:right;
                             color:#4b4b4b;
                         }
