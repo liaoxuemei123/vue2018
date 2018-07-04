@@ -6,7 +6,7 @@
             />
             <div class="page-content">
                 <div class="referee-control" flex="dir:left box:mean">
-                    <div class="select-item" v-for="item in referees" @click="needReceipt = item.value">
+                    <div class="select-item" v-for="item in referees" :key="item.value" @click="needReceipt = item.value">
                         <i class="iconfont" :class="needReceipt == item.value ?'icon-select' : 'icon-circle'"></i>{{item.name}}
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     <div class="meal-list" v-if="mealListShow">
                         <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in receiptTitle" :key="index" flex="dir:left cross:center">
                             <i class="iconfont icon-select" v-if="selectTitle == index"></i>
-                            <i class="iconfont icon-circle active" v-else="selectTitle == index"></i>
+                            <i class="iconfont icon-circle active" v-else></i>
                             <div class="oil-item">{{item}}</div>
                         </div>
                     </div>

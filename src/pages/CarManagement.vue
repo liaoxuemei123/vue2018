@@ -26,7 +26,7 @@
                         <!-- <div class="default-show" flex="dir:left cross:center" @click="active == -1?active = 0:active = -1"> -->
                             <div class="default-show" flex="dir:left cross:center" @click="addcardiv">
                                 <i class="iconfont icon-select active" v-if="active == -1"></i>
-                                <i class="iconfont icon-circle" v-else="active == -1"></i>
+                                <i class="iconfont icon-circle" v-else></i>
                                 <div class="title">我要添加车辆</div>
                             </div>
                             <div class="drop-down-form" v-if="active == -1" flex="dir:top main:center">

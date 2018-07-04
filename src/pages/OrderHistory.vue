@@ -6,7 +6,7 @@
         <div class="state-list">
           <div class="state-container">
             <div class="state-item-container" flex="dir:left box:mean cross:center">
-              <div class="list-item" :class="{'active':activeState == item.value}" v-for="item in state" @click="filterOrder(item.value)">
+              <div class="list-item" :class="{'active':activeState == item.value}" v-for="item in state" :key="item.value" @click="filterOrder(item.value)">
                 {{item.label}}
               </div>
             </div>

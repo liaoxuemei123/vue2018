@@ -44,7 +44,7 @@
                   <span class="info">使用时间:{{item.createDate}}</span>
                 </div>
                 <span class="evaluate" @click="goEvaluateDetail(index)" v-if="item.isEvaluate == 1">查看评价</span>
-                <span class="evaluate" @click="goEvaluate(index)" v-else="item.isEvaluate == 1">去评价</span>
+                <span class="evaluate" @click="goEvaluate(index)" v-else>去评价</span>
               </div>
               <div class="line" flex="dir:left cross:center main:justify">
                 <div>

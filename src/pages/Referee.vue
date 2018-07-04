@@ -5,7 +5,7 @@
       <div class="page-content" flex="dir:top">
         <div class="input-control" flex="dir:left box:first">
           <div class="label">推荐类型</div>
-          <div class="select-item" v-for="item in referees" @click="refereeType = item.value">
+          <div class="select-item" v-for="item in referees" :key="item.value" @click="refereeType = item.value">
             <i class="iconfont" :class="refereeType == item.value ?'icon-select' : 'icon-circle'"></i>{{item.name}}
           </div>
         </div>
