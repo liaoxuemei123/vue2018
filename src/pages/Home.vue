@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="consult-tel" tel="tel:4009990448" @click="stopPropagationA">咨询时间：9:00-21:00&nbsp;&nbsp;&nbsp;&nbsp;电话：
-            <span class="    telnum">4009990448</span>
+            <span class="telnum">4009990448</span>
           </div>
         </div>
       </div>
