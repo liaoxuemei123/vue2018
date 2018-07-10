@@ -40,6 +40,7 @@
         <div class="cancel" v-if="item.status == 2 && new Date().getTime() - item.paySuccessDate < 604800000 && !item.isOrderDetail" v-tap="refund.bind(this,item.orderNo)">退款</div>
         <div class="goReceipt" v-tap="goReceipt.bind(this,item.orderNo)" v-if="item.isOpen=='Y'">我要发票</div>
         <div class="goReceipt" v-tap="goReceiptPic.bind(this,item.backup1)" v-if="item.isOpen=='YY'">查看发票</div>
+        <div class="goReceipt" v-if="item.isOpen=='YN'">开票中</div>
         <!--<div class="evaluate" @click="goEvaluate" v-if="item.status == 4">去评价</div>-->
         <div class="detail" v-tap="viewDetail.bind(this,item.orderNo)">查看详情</div>
       </div>
