@@ -14,6 +14,7 @@ import "intro.js/introjs.css";
 import Tool from "./utils/Tool";
 import "./utils/Tap";
 const FastClick = require("fastclick");
+require("./mock/index.js");
 Vue.use(MintUI);
 
 $(function() {

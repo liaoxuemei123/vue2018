@@ -34,6 +34,9 @@ import AgentExplain from "pages/AgentExplain";
 import WcbyStore from "pages/WcbyStore";
 import ScbyStore from "pages/ScbyStore";
 import ShowReceipt from "pages/ShowReceipt";
+import myCoupon from "pages/myCoupon";
+import SelectCoupon from "pages/SelectCoupon";
+import ReceiveCoupon from "pages/ReceiveCoupon";
 
 Vue.use(Router);
 
@@ -225,6 +228,21 @@ export default new Router({
       path: "/showreceipt",
       name: "showreceipt",
       component: ShowReceipt
+    },
+    {
+      path: "/mycoupon",
+      name: "mycoupon",
+      component: myCoupon
+    },
+    {
+      path: "/selectcoupon",
+      name: "selectcoupon",
+      component: SelectCoupon
+    },
+    {
+      path: "/receivecoupon",
+      name: "receivecoupon",
+      component: ReceiveCoupon
     }
   ]
 });

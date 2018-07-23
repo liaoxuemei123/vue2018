@@ -21,6 +21,7 @@
       <div class="price-info" flex="dir:left main:right cross:center">
         <div class="order-total" flex="dir:left">
           <div class="title">合计:￥</div>
+          <!-- 如果有优惠券 不取一个字段 需要另一个字段-->
           <div class="label">{{item.orderPrice}}</div>
         </div>
         <div class="order-price" flex="dir:left" v-if="item.status != 1">
@@ -119,7 +120,10 @@ export default {
       Tool.post("getInvoiceUrl", { id: id }, data => {
         if (data.code == 200) {
           // this.pdfSrc = data.data
-          window.open(data.data, "_self", "location=no");
+
+          var url = `${data.data}&_t=${new Date().getTime()}`;
+          console.log(url);
+          window.open(url, "_self", "location=no");
         } else {
           Toast({
             duration: 1000,

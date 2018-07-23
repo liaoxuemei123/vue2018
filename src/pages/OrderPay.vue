@@ -239,7 +239,7 @@ export default {
                   })
                   .then(pData => {
                     return new Promise((res, rej) => {
-                      Tool.get("packageOrderPay", pData, data => {
+                      Tool.post("packageOrderPay", pData, data => {
                         //
                         if (data.code == 200) {
                           res(data.data);

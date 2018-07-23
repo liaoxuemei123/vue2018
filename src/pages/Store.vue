@@ -115,7 +115,7 @@ export default {
       this.loadMore = false;
       this.pagenation.page++;
       var wbpId = this.$route.params.wbpId;
-      Tool.get(
+      Tool.post(
         "getStore",
         {
           gpsLongitude: this.cityInfo.lng || this.geolocation.point.lon,
@@ -145,7 +145,7 @@ export default {
         this.$store.getters.prepage.name == "setdetail" ||
         this.$store.getters.prepage.name == "personinfo"
       ) {
-        Tool.get(
+        Tool.post(
           "getStore",
           {
             gpsLongitude: this.cityInfo.lng || self.geolocation.point.lon,
@@ -175,7 +175,7 @@ export default {
           }
         );
       } else {
-        Tool.get(
+        Tool.post(
           "getStore",
           {
             gpsLongitude: this.cityInfo.lng || self.geolocation.point.lon,
@@ -340,7 +340,7 @@ export default {
               this.cityInfo.code = "";
               res();
             }
-            Tool.get("getRegionCode", { city: this.geolocation.address.city }, data => {
+            Tool.post("getRegionCode", { city: this.geolocation.address.city }, data => {
               if (data.data.length > 0) {
                 this.cityInfo.code = data.data[0];
               }

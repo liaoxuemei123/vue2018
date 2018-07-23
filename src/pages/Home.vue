@@ -445,6 +445,7 @@ export default {
                   message: "该推荐二维码已失效，但仍可正常购买，本订单视为无效推荐。"
                 });
                 next({ path: "/maintainset", query: { wbyQd: String(to.query.wbyQd) } });
+                // 这里好像有bug
 
                 // MessageBox({
                 //   title: '提示',

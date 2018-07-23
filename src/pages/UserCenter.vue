@@ -21,6 +21,14 @@
               <i class="iconfont icon-go"></i>
             </div>
           </div>
+          <div class="info-control" @click="myCoupon" flex="dir:left box:first">
+            <div class="label">
+              <span>我的代金券</span>
+            </div>
+            <div class="value">查看代金券
+              <i class="iconfont icon-go"></i>
+            </div>
+          </div>
           <!-- <div class="info-control" @click="agentRecommend" flex="dir:left box:first">
                         <div class="label">
                             <span>推荐</span>
@@ -147,6 +155,9 @@ export default {
     },
     myCar: function() {
       this.$router.push({ name: "carmanagement" });
+    },
+    myCoupon() {
+      this.$router.push({ name: "mycoupon" });
     },
     ...mapMutations({
       addUservehicle: "ADD_USERVEHICLE",

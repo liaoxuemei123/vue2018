@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="login-page page" flex="dir:top box:first">
-      <nav-bar title="长安通行证登录" :onRight="register" rightContent="注册" />
+      <nav-bar title="长安通行证登录" :onRight="register" rightContent="注册" rightIcon="space" />
       <div class="page-content" :style="{'background-image':'url('+require('../assets/bg.png')+')'}">
         <!-- <div class="person-picture" :style="{'background-image':'url('+require('../assets/person-picture.png')+')'}"></div> -->
         <div class="bisiness-list">

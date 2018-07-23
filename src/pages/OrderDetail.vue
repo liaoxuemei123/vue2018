@@ -28,6 +28,7 @@
               <span>到期时间：{{orderInfo.expirationDate | expirationFilter}}</span>
             </div>
             <div class="user-phone">电话号码：{{orderInfo.phone}}</div>
+            <!-- <div class="coupon">优惠金额：{{orderInfo.coupon}}</div> -->
             <div class="price">总额：{{orderInfo.orderPrice | priceFilter}}</div>
           </div>
           <div class="bottom" flex="dir:left cross:center" v-if="orderInfo.status == 2">
