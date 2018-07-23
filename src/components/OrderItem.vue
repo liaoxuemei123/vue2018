@@ -121,9 +121,9 @@ export default {
         if (data.code == 200) {
           // this.pdfSrc = data.data
 
-          var url = `${data.data}&_t=${new Date().getTime()}`;
+          var url = encodeURI(`${data.data}&_t=${new Date().getTime()}`);
           console.log(url);
-          window.open(url, "_self", "location=no");
+          window.open(url, "_system", "location=no");
         } else {
           Toast({
             duration: 1000,
