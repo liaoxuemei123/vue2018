@@ -117,8 +117,8 @@ export default {
       // this.$router.push({name:'showreceipt',params:{id:id}});
       Tool.post("getInvoiceUrl", { id: id }, data => {
         if (data.code == 200) {
-          // this.pdfSrc = data.data
-          window.open(data.data, "_self", "location=no");
+          var pdfUrl = encodeURI(data.data);
+          window.open(pdfUrl, "_system", "location=no");
         } else {
           Toast({
             duration: 1000,
