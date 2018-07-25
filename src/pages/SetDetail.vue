@@ -239,15 +239,27 @@ export default {
       }
       var today = Tool.formatDate(new Date());
       var end = "";
-      if (String(validate).indexOf(".") >= 0) {
-        var INT = String(validate).split(".")[0] - 0;
-        var FLOAT = validate - (String(validate).split(".")[0] - 0);
-        var additionTime = Math.ceil(FLOAT * 365) * 60 * 60 * 24 * 1000;
-        var temp = today.substring(0, 4) - 0 + INT + today.substring(4, 10);
-        end = Tool.formatDate(new Date(temp).getTime() + additionTime);
+      var mon = today.substring(5, 7) - 0 + validate;
+      if (mon / 12 < 1) {
+        end = today.substring(0, 5) + (mon > 10 ? mon : "0" + mon) + today.substring(7, 10);
       } else {
-        end = today.substring(0, 4) - 0 + validate + today.substring(4, 10);
+        end =
+          today.substring(0, 4) -
+          0 +
+          Math.floor(mon / 12) +
+          "-" +
+          (mon % 12 > 10 ? mon % 12 : "0" + mon % 12) +
+          today.substring(7, 10);
       }
+      // if(String(validate).indexOf('.') >= 0){
+      //     var INT = String(validate).split('.')[0] - 0;
+      //     var FLOAT = validate - (String(validate).split('.')[0] - 0);
+      //     var additionTime = Math.ceil(FLOAT * 365) * 60 * 60 * 24 * 1000;
+      //     var temp = today.substring(0,4) - 0 + INT + today.substring(4,10);
+      //     end = Tool.formatDate(new Date(temp).getTime() + additionTime);
+      // }else{
+      //     end = today.substring(0,4) - 0 + validate + today.substring(4,10);
+      // }
       this.setDetail.validate = end;
     },
     getPackageDetail: function(id = 1) {
