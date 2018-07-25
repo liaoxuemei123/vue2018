@@ -69,7 +69,6 @@ export default {
   }
   span {
     display: inline-block;
-    margin-right: 0.6rem;
   }
   .right-button {
     text-align: right;
@@ -77,6 +76,11 @@ export default {
       float: right;
       margin-right: 0.6rem;
       font-weight: bold;
+    }
+    .iconfont.space {
+      width: 0.6rem;
+      height: 1px;
+      margin: 0;
     }
   }
   .right-button.other {
