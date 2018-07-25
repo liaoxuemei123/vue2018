@@ -369,7 +369,7 @@ export default {
 
       data.oid = Tool.localItem("oid") ? Tool.localItem("oid") : Tool.getUserInfo("oid");
       // data.userId = Tool.getUserInfo('userId');
-      Tool.get(
+      Tool.post(
         "agentIdent",
         {
           name: data.name,

@@ -115,7 +115,7 @@ export default {
       this.loadMore = false;
       this.pagenation.page++;
       var wbpId = this.$route.params.wbpId;
-      Tool.get(
+      Tool.post(
         "getStore",
         {
           gpsLongitude: this.cityInfo.lng || this.geolocation.point.lon,
@@ -145,7 +145,7 @@ export default {
         this.$store.getters.prepage.name == "setdetail" ||
         this.$store.getters.prepage.name == "personinfo"
       ) {
-        Tool.get(
+        Tool.post(
           "getStore",
           {
             gpsLongitude: this.cityInfo.lng || self.geolocation.point.lon,
@@ -175,7 +175,7 @@ export default {
           }
         );
       } else {
-        Tool.get(
+        Tool.post(
           "getStore",
           {
             gpsLongitude: this.cityInfo.lng || self.geolocation.point.lon,
@@ -214,7 +214,7 @@ export default {
           data.photoUrl = this.storelist[this.select].photoUrl;
           data.storeId = this.storelist[this.select].id;
           this.setPackageStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       } else if (this.$store.getters.prepage.name == "personinfo") {
         this.$nextTick(() => {
@@ -222,7 +222,7 @@ export default {
           data.storeId = this.storelist[this.select].id;
           data.storeName = this.storelist[this.select].storeName;
           this.setRefereeStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       } else {
         setTimeout(() => {
@@ -231,7 +231,7 @@ export default {
           data.storeName = this.storelist[this.select].storeName;
           data.photoUrl = this.storelist[this.select].photoUrl;
           this.setSubscribeStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       }
     },
@@ -340,7 +340,7 @@ export default {
               this.cityInfo.code = "";
               res();
             }
-            Tool.get("getRegionCode", { city: this.geolocation.address.city }, data => {
+            Tool.post("getRegionCode", { city: this.geolocation.address.city }, data => {
               if (data.data.length > 0) {
                 this.cityInfo.code = data.data[0];
               }

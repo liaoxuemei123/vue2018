@@ -194,7 +194,7 @@ export default {
     if (this.subscribeInfo.carInfo.mileage)
       this.subscribeInfo.mile = this.subscribeInfo.carInfo.mileage;
     if (this.subscribeInfo.carInfo && this.subscribeInfo.carInfo.plate && this.subscribeInfo.mile) {
-      Tool.get(
+      Tool.post(
         "getCommoditys",
         {
           mileage: this.subscribeInfo.mile.replace(/[a-zA-Z]/g, ""),
@@ -232,7 +232,7 @@ export default {
         return false;
       }
       if (!this.subscribeInfo.mile.replace(/[a-zA-Z]/g, "")) return false;
-      Tool.get(
+      Tool.post(
         "getCommoditys",
         {
           mileage: this.subscribeInfo.mile.replace(/[a-zA-Z]/g, ""),
