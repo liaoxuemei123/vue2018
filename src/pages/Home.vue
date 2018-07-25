@@ -38,7 +38,7 @@
               <span class="unpay-order" v-if="orderUnPayCount > 0">{{orderUnPayCount > 9 ? orderUnPayCount : orderUnPayCount}}</span>
             </div>
           </div>
-          <div class="consult-tel" tel="tel:4009990448" @click="stopPropagationA">咨询时间：9:00-21:00&nbsp;&nbsp;&nbsp;&nbsp;电话：
+          <div class="consult-tel" tel="tel:4009990448" @click="stopPropagationA">咨询时间：9:00-18:00&nbsp;&nbsp;&nbsp;&nbsp;电话：
             <span class="telnum">4009990448</span>
           </div>
         </div>
