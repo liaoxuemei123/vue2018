@@ -214,7 +214,7 @@ export default {
           data.photoUrl = this.storelist[this.select].photoUrl;
           data.storeId = this.storelist[this.select].id;
           this.setPackageStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       } else if (this.$store.getters.prepage.name == "personinfo") {
         this.$nextTick(() => {
@@ -222,7 +222,7 @@ export default {
           data.storeId = this.storelist[this.select].id;
           data.storeName = this.storelist[this.select].storeName;
           this.setRefereeStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       } else {
         setTimeout(() => {
@@ -231,7 +231,7 @@ export default {
           data.storeName = this.storelist[this.select].storeName;
           data.photoUrl = this.storelist[this.select].photoUrl;
           this.setSubscribeStoreInfo(data);
-          // this.$router.back();
+          this.$router.back();
         });
       }
     },
