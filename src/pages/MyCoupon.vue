@@ -27,12 +27,12 @@
                 <div class="coupon-item" v-for="(item, index) in unpaidList" :key="index">
                   <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop"></coupon-item>
                 </div>
-                <div class="load-more" flex="dir:top cross:center" v-if="(pageUnpaid)*pageSize < totalCountUnpaid">
+                <!-- <div class="load-more" flex="dir:top cross:center" v-if="(pageUnpaid)*pageSize < totalCountUnpaid">
                   <div class="start-load" v-tap="loadMoreUnpaid" v-if="unpaidLoad">加载更多</div>
                   <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
-                </div>
+                </div> -->
               </scroller>
             </div>
             <div class="tab-paid tabs" key="paid" v-show="activeTab == 1">
@@ -44,12 +44,12 @@
                 <div class="coupon-item" v-for="(item, index) in paidList" :key="index">
                   <coupon-item :item="item"></coupon-item>
                 </div>
-                <div class="load-more" flex="dir:top cross:center" v-if="(pagePaid)*pageSize < totalCountPaid">
+                <!-- <div class="load-more" flex="dir:top cross:center" v-if="(pagePaid)*pageSize < totalCountPaid">
                   <div class="start-load" v-tap="loadMorePaid" v-if="paidLoad">加载更多</div>
                   <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
-                </div>
+                </div> -->
               </scroller>
             </div>
             <div class="tab-refund tabs" key="refund" v-show="activeTab == 2">
@@ -62,12 +62,12 @@
                   <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop">
                   </coupon-item>
                 </div>
-                <div class="load-more" flex="dir:top cross:center main:center" v-if="(pageRefund)*pageSize < totalCountRefund">
+                <!-- <div class="load-more" flex="dir:top cross:center main:center" v-if="(pageRefund)*pageSize < totalCountRefund">
                   <div class="start-load" v-tap="loadMoreRefund" v-if="refundLoad">加载更多</div>
                   <div flex="dir:left cross:center" v-else>加载中
                     <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
                   </div>
-                </div>
+                </div> -->
               </scroller>
             </div>
           </transition-group>
@@ -111,6 +111,7 @@ export default {
         { value: 1, label: "已使用" },
         { value: 2, label: "已过期" }
       ],
+      mobile: "",
       typeShow: false,
       unpaidList: [],
       paidList: [],
@@ -131,8 +132,10 @@ export default {
         {
           values: [
             { index: 0, name: "全部代金券" },
-            { index: 1, name: "线上代金券" },
-            { index: 2, name: "线下代金券" }
+            { index: 1, name: "满减" },
+            { index: 2, name: "无条件" },
+            { index: 3, name: "折扣" },
+            { index: 4, name: "线下折扣" }
           ]
         }
       ],
@@ -155,28 +158,19 @@ export default {
       }
       switch (newdata) {
         case 0:
-          if (this.unpaidList.length < 1) {
-            this.pageUnpaid = 1;
-            this.totalCountUnpaid = 0;
-            console.log("111");
-            this.orderQueryUnPaid();
-          }
+          this.pageUnpaid = 1;
+          this.totalCountUnpaid = 0;
+          this.orderQueryUnPaid();
           break;
         case 1:
-          if (this.paidList.length < 1) {
-            this.pagePaid = 1;
-            this.totalCountPaid = 0;
-            console.log("222");
-            this.orderQueryPaid();
-          }
+          this.pagePaid = 1;
+          this.totalCountPaid = 0;
+          this.orderQueryPaid();
           break;
         case 2:
-          if (this.refundList.length < 1) {
-            this.pageRefund = 1;
-            this.totalCountRefund = 0;
-            console.log("333");
-            this.orderQueryRefund();
-          }
+          this.pageRefund = 1;
+          this.totalCountRefund = 0;
+          this.orderQueryRefund();
           break;
       }
     }
@@ -205,24 +199,30 @@ export default {
     },
     selectType() {
       this.currentType = this.temp;
+      if (this.activeTab == 0) {
+        this.orderQueryUnPaid();
+      } else if (this.activeTab == 1) {
+        this.orderQueryPaid();
+      } else if (this.activeTab == 2) {
+        this.orderQueryRefund();
+      }
       this.typeShow = false;
     },
     typeShowFun() {
       this.typeShow = !this.typeShow;
     },
     orderQueryUnPaid: function() {
-      Tool.get(
-        "unused",
+      Tool.post(
+        "VoucherQuery",
         {
-          userId: Tool.getUserInfo("userId"),
-          status: "1",
-          page: this.pageUnpaid,
-          pageSize: this.pageSize
+          mobile: this.mobile,
+          status: "未使用",
+          type: this.currentType.index == 0 ? "" : this.currentType.name
         },
         data => {
           if (data.code == 200) {
-            this.unpaidList = data.data.data;
-            this.totalCountUnpaid = data.data.totalCount;
+            this.unpaidList = data.data;
+            this.totalCountUnpaid = data.data.length;
             this.$nextTick(() => {
               this.$children[1].$children[0].mySroller.scrollTo(0, 0);
               this.$children[1].$children[0].mySroller.y = 0;
@@ -238,18 +238,17 @@ export default {
       );
     },
     orderQueryPaid: function() {
-      Tool.get(
-        "used",
+      Tool.post(
+        "VoucherQuery",
         {
-          userId: Tool.getUserInfo("userId"),
-          status: "2",
-          page: this.pagePaid,
-          pageSize: this.pageSize
+          mobile: this.mobile,
+          status: "已使用",
+          type: this.currentType.index == 0 ? "" : this.currentType.name
         },
         data => {
           if (data.code == 200) {
-            this.paidList = data.data.data;
-            this.totalCountPaid = data.data.totalCount;
+            this.paidList = data.data;
+            this.totalCountPaid = data.data.length;
             this.$nextTick(() => {
               this.$children[1].$children[1].mySroller.scrollTo(0, 0);
               this.$children[1].$children[1].mySroller.y = 0;
@@ -265,18 +264,17 @@ export default {
       );
     },
     orderQueryRefund: function() {
-      Tool.get(
-        "out",
+      Tool.post(
+        "VoucherQuery",
         {
-          userId: Tool.getUserInfo("userId"),
-          status: "3",
-          page: this.pageRefund,
-          pageSize: this.pageSize
+          mobile: this.mobile,
+          status: "已过期",
+          type: this.currentType.index == 0 ? "" : this.currentType.name
         },
         data => {
           if (data.code == 200) {
-            this.refundList = data.data.data;
-            this.totalCountRefund = data.data.totalCount;
+            this.refundList = data.data;
+            this.totalCountRefund = data.data.length;
             this.$nextTick(() => {
               this.$children[1].$children[2].mySroller.scrollTo(0, 0);
               this.$children[1].$children[2].mySroller.y = 0;
@@ -291,102 +289,91 @@ export default {
         }
       );
     },
-    loadMoreUnpaid: function() {
-      var self = this;
-      self.pageUnpaid++;
-      self.totalCountUnpaid = 1000000; //保证加载更多在加载完成前一直显示
-      self.unpaidLoad = false;
-      Tool.get(
-        "unused",
-        {
-          userId: Tool.getUserInfo("userId"),
-          status: 1,
-          page: this.pageUnpaid,
-          pageSize: this.pageSize
-        },
-        data => {
-          if (data.code == 200) {
-            this.unpaidList = this.unpaidList.concat(data.data.data);
-            this.totalCountUnpaid = data.data.totalCount;
-            self.unpaidLoad = true;
-          } else {
-            Toast({
-              duration: 1000,
-              message: data.msg
-            });
-          }
-        },
-        { mask: false }
-      );
-    },
-    loadMorePaid: function() {
-      var self = this;
-      self.pagePaid++;
-      self.totalCountPaid = 1000000; //保证加载更多在加载完成前一直显示
-      self.paidLoad = false;
-      Tool.get(
-        "AaPackageOrderQuery",
-        {
-          userId: Tool.getUserInfo("userId"),
-          status: 2,
-          page: this.pagePaid,
-          pageSize: this.pageSize
-        },
-        data => {
-          if (data.code == 200) {
-            this.paidList = this.paidList.concat(data.data.data);
-            this.totalCountPaid = data.data.totalCount;
-            self.paidLoad = true;
-          } else {
-            Toast({
-              duration: 1000,
-              message: data.msg
-            });
-          }
-        },
-        { mask: false }
-      );
-    },
-    loadMoreRefund: function() {
-      var self = this;
-      self.pageRefund++;
-      self.totalCountRefund = 1000000; //保证加载更多在加载完成前一直显示
-      self.refundLoad = false;
-      Tool.get(
-        "AaPackageOrderQuery",
-        {
-          userId: Tool.getUserInfo("userId"),
-          status: 3,
-          page: this.pageRefund,
-          pageSize: this.pageSize
-        },
-        data => {
-          if (data.code == 200) {
-            this.refundList = this.refundList.concat(data.data.data);
-            this.totalCountRefund = data.data.totalCount;
-            self.refundLoad = true;
-          } else {
-            Toast({
-              duration: 1000,
-              message: data.msg
-            });
-          }
-        },
-        { mask: false }
-      );
-    },
-    customBack: function() {
-      var prepage = this.$store.getters.prepage;
-      if (this.$route.query.token) {
-        this.$router.go(-2);
-      } else if (!prepage || (prepage.name != "maintainset" && prepage.name != "usercenter")) {
-        //这里的逻辑智能保证按正常的后退键管用。
-        this.$store.commit("INSERT_PAGE", { path: "/maintainset", index: 0, name: "maintainset" });
-        this.$router.push({ name: "maintainset" });
-      } else {
-        this.$router.back();
-      }
-    },
+    // loadMoreUnpaid: function() {
+    //   var self = this;
+    //   self.pageUnpaid++;
+    //   self.totalCountUnpaid = 1000000; //保证加载更多在加载完成前一直显示
+    //   self.unpaidLoad = false;
+    //   Tool.get(
+    //     "unused",
+    //     {
+    //       userId: Tool.getUserInfo("userId"),
+    //       status: 1,
+    //       page: this.pageUnpaid,
+    //       pageSize: this.pageSize
+    //     },
+    //     data => {
+    //       if (data.code == 200) {
+    //         this.unpaidList = this.unpaidList.concat(data.data.data);
+    //         this.totalCountUnpaid = data.data.totalCount;
+    //         self.unpaidLoad = true;
+    //       } else {
+    //         Toast({
+    //           duration: 1000,
+    //           message: data.msg
+    //         });
+    //       }
+    //     },
+    //     { mask: false }
+    //   );
+    // },
+    // loadMorePaid: function() {
+    //   var self = this;
+    //   self.pagePaid++;
+    //   self.totalCountPaid = 1000000; //保证加载更多在加载完成前一直显示
+    //   self.paidLoad = false;
+    //   Tool.get(
+    //     "AaPackageOrderQuery",
+    //     {
+    //       userId: Tool.getUserInfo("userId"),
+    //       status: 2,
+    //       page: this.pagePaid,
+    //       pageSize: this.pageSize
+    //     },
+    //     data => {
+    //       if (data.code == 200) {
+    //         this.paidList = this.paidList.concat(data.data.data);
+    //         this.totalCountPaid = data.data.totalCount;
+    //         self.paidLoad = true;
+    //       } else {
+    //         Toast({
+    //           duration: 1000,
+    //           message: data.msg
+    //         });
+    //       }
+    //     },
+    //     { mask: false }
+    //   );
+    // },
+    // loadMoreRefund: function() {
+    //   var self = this;
+    //   self.pageRefund++;
+    //   self.totalCountRefund = 1000000; //保证加载更多在加载完成前一直显示
+    //   self.refundLoad = false;
+    //   Tool.get(
+    //     "AaPackageOrderQuery",
+    //     {
+    //       userId: Tool.getUserInfo("userId"),
+    //       status: 3,
+    //       page: this.pageRefund,
+    //       pageSize: this.pageSize
+    //     },
+    //     data => {
+    //       if (data.code == 200) {
+    //         this.refundList = this.refundList.concat(data.data.data);
+    //         this.totalCountRefund = data.data.totalCount;
+    //         self.refundLoad = true;
+    //       } else {
+    //         Toast({
+    //           duration: 1000,
+    //           message: data.msg
+    //         });
+    //       }
+    //     },
+    //     { mask: false }
+    //   );
+    // },
+
     resetData: function() {
       this.unpaidList = [];
       this.paidList = [];
@@ -418,6 +405,7 @@ export default {
       this.hasToken = false;
     }
     this.resetData();
+    this.mobile = Tool.getUserInfo("telephone");
     if (this.activeTab == 0) {
       this.orderQueryUnPaid();
     } else if (this.activeTab == 1) {

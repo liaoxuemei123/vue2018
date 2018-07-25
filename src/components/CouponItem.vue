@@ -3,20 +3,18 @@
     <div class="body">
       <div class="order-info" flex="dir:top box:mean">
         <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
-        <div :class="['baseInfo', {'baseInfo-canuse': item.status==1}, {'baseInfo-used': item.status!=1}]" flex="dir:top">
+        <div :class="['baseInfo', {'baseInfo-canuse': item.wbcuStatus=='未使用'}, {'baseInfo-used': item.wbcuStatus!='未使用'}]" flex="dir:top">
           <p class="couponType">
-            {{item.type|typeFilter}}
+            {{item.wbcName}}
           </p>
           <div class="couponScene" flex="dir:left box:first">
             <div class="scene-l">
               <span class="h2">¥</span>
-              <span class="price nowrap-flex">{{item.price}}</span>
+              <span class="price nowrap-flex">{{item.wbcPrice}}</span>
             </div>
             <!-- scene-r-used 右侧使用之后的颜色 -->
-            <div :class="item.status==1?'scene-r':'scene-r-used'">
-              <p class="h3 useCondition">规则:{{item.range}}</p>
-              <!-- <p class="h3 useCondition unvisible">全场通用</p> -->
-              <p class="h3 useCode nowrap-flex">使用码: {{item.code}}
+            <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'">
+              <p class="h3 useCode nowrap-flex">使用码: {{item.wbcuNumber}}
               </p>
             </div>
           </div>
@@ -24,7 +22,7 @@
       </div>
     </div>
     <div class="footer">
-      <div :class="['detail',{'detail-canuse':item.status==1},{'detail-used':item.status!=1}]">
+      <div :class="['detail',{'detail-canuse':item.wbcuStatus=='未使用'},{'detail-used':item.wbcuStatus!='未使用'}]">
         <div class="detail-btn" flex="dir:left main:justify cross:center" @click="detailShow=!detailShow">
           <div flex="dir:left cross:center">
             <span class="h5">详情
@@ -33,15 +31,15 @@
           </div>
 
           <div class="time">
-            <span class="startTime">{{item.startTime}}</span>-
-            <span class="endTime">{{item.endTime}}</span>
+            <span class="startTime">{{item.wbcKsyxq}}</span>-
+            <span class="endTime">{{item.wbcJsyxq}}</span>
           </div>
         </div>
         <!-- 时间一定会显示 -->
 
         <transition name="fade">
           <div class="detail-content" v-show="detailShow">
-            <span>使用规则:{{item.des}}</span>
+            <span>{{item.wbcSygz}}</span>
           </div>
         </transition>
       </div>

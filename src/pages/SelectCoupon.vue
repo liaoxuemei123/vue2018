@@ -60,12 +60,13 @@ export default {
   name: "selectcoupon",
   data() {
     return {
-      tabs: [{ value: 0, label: "可使用" }, { value: 1, label: "不可使用" }],
+      tabs: [{ value: 0, label: "可用" }, { value: 1, label: "不可用" }],
       orderList: [],
       unpaidList: [],
       activeTab: 0,
       animate: "left",
-      select: -1
+      select: -1,
+      mobile: ""
     };
   },
   components: {
@@ -116,15 +117,19 @@ export default {
       this.$router.back();
     },
     orderQueryAll: function() {
-      Tool.get(
-        "canuse",
+      Tool.post(
+        "VoucherQuery",
         {
-          userId: Tool.getUserInfo("userId"),
-          status: ""
+          wbproductId: "",
+          storeId: "",
+          setmealId: "",
+          mobile: this.mobile,
+          isAble: "可用",
+          status: "未使用"
         },
         data => {
           if (data.code == 200) {
-            this.orderList = data.data.data;
+            this.orderList = data.data;
             this.$nextTick(() => {
               this.$children[1].$children[0].mySroller.scrollTo(0, 0);
               this.$children[1].$children[0].mySroller.y = 0;
@@ -140,15 +145,19 @@ export default {
       );
     },
     orderQueryUnPaid: function() {
-      Tool.get(
-        "nouse",
+      Tool.post(
+        "VoucherQuery",
         {
-          userId: Tool.getUserInfo("userId"),
-          status: "1"
+          wbproductId: "",
+          storeId: "",
+          setmealId: "",
+          mobile: this.mobile,
+          isAble: "不可用",
+          status: "未使用"
         },
         data => {
           if (data.code == 200) {
-            this.unpaidList = data.data.data;
+            this.unpaidList = data.data;
             this.$nextTick(() => {
               this.$children[1].$children[1].mySroller.scrollTo(0, 0);
               this.$children[1].$children[1].mySroller.y = 0;
@@ -182,6 +191,7 @@ export default {
   },
   activated: function() {
     this.resetData();
+    this.mobile = Tool.getUserInfo("telephone");
     if (this.activeTab == 0) {
       this.orderQueryAll();
     } else if (this.activeTab == 1) {

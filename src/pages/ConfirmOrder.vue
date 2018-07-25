@@ -216,7 +216,16 @@ export default {
   },
   methods: {
     selectCoupon() {
-      this.$router.push({ name: "selectcoupon" });
+      this.$router.push({
+        name: "selectcoupon",
+        params: {
+          wbproductId: this.setInfo.wbpId,
+          storeId: this.storeInfo.id
+            ? this.storeInfo.id == "111111" ? "" : this.storeInfo.id
+            : "",
+          setmealId: this.setDetail.mealId
+        }
+      });
     },
     goPay: function() {
       // MessageBox.confirm('是否确认立即支付？').then(action => {
@@ -256,7 +265,9 @@ export default {
       // },() => {});
     },
     submitOrder: function() {
-      const expiredTime = new Date(this.setDetail.validate).getTime();
+      // const expiredTime = new Date(this.setDetail.validate).getTime();
+      // expirationDateTimestamp: expiredTime,
+
       console.log(this.setInfo.wbpId);
       // return;
       Tool.post(
@@ -264,7 +275,6 @@ export default {
         {
           userId: Tool.getUserInfo("userId"),
           allNumber: this.setDetail.number,
-          expirationDateTimestamp: expiredTime,
           vin: this.userInfo.vin,
           packageId: this.setInfo.wbpId,
           restrictFacilitator: this.storeInfo.id
