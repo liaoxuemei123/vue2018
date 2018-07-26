@@ -218,7 +218,8 @@ export default {
           background-color: #ed3f14;
           line-height: 1.3em;
           padding: 0 0.3em;
-          right: 0.2rem;
+          // right: 0.2rem;
+          margin-left: 0.2rem;
           top: 0.2rem;
           border-radius: 1.2em;
           font-size: 0.47rem;
