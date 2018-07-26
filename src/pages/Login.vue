@@ -147,6 +147,9 @@ export default {
             });
             that.btnDisabled = true;
             this.codeMessage = "重新发送(" + that.num + ")";
+            if (this.timer) {
+              clearInterval(this.timer);
+            }
             this.timer = setInterval(function() {
               that.num--;
               console.log(that.num == 0);
