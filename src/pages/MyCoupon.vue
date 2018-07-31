@@ -19,55 +19,37 @@
         <div class="order-list-container">
           <transition-group :name="animate">
             <div class="tab-unpaid tabs" key="unpaid" v-show="activeTab == 0">
-              <div class="no-goods" flex="dir:top cross:center" v-if="unpaidList.length == 0">
+              <div class="no-goods" flex="dir:top cross:center" v-if="unusedList.length == 0">
                 <i class="iconfont icon-goods"></i>
                 <span>暂无未使用代金券</span>
               </div>
               <scroller refMark='0'>
-                <div class="coupon-item" v-for="(item, index) in unpaidList" :key="index">
+                <div class="coupon-item" v-for="(item, index) in unusedList" :key="index">
                   <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop"></coupon-item>
                 </div>
-                <!-- <div class="load-more" flex="dir:top cross:center" v-if="(pageUnpaid)*pageSize < totalCountUnpaid">
-                  <div class="start-load" v-tap="loadMoreUnpaid" v-if="unpaidLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else>加载中
-                    <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
-                  </div>
-                </div> -->
               </scroller>
             </div>
             <div class="tab-paid tabs" key="paid" v-show="activeTab == 1">
-              <div class="no-goods" flex="dir:top cross:center" v-if="paidList.length == 0">
+              <div class="no-goods" flex="dir:top cross:center" v-if="usedList.length == 0">
                 <i class="iconfont icon-goods"></i>
                 <span>暂无已使用代金券</span>
               </div>
               <scroller refMark='1'>
-                <div class="coupon-item" v-for="(item, index) in paidList" :key="index">
+                <div class="coupon-item" v-for="(item, index) in usedList" :key="index">
                   <coupon-item :item="item"></coupon-item>
                 </div>
-                <!-- <div class="load-more" flex="dir:top cross:center" v-if="(pagePaid)*pageSize < totalCountPaid">
-                  <div class="start-load" v-tap="loadMorePaid" v-if="paidLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else>加载中
-                    <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
-                  </div>
-                </div> -->
               </scroller>
             </div>
             <div class="tab-refund tabs" key="refund" v-show="activeTab == 2">
-              <div class="no-goods" flex="dir:top cross:center" v-if="refundList.length == 0">
+              <div class="no-goods" flex="dir:top cross:center" v-if="overdueList.length == 0">
                 <i class="iconfont icon-goods"></i>
                 <span>暂无已过期代金券</span>
               </div>
               <scroller refMark='2'>
-                <div class="coupon-item" v-for="(item, index) in refundList" :key="index">
+                <div class="coupon-item" v-for="(item, index) in overdueList" :key="index">
                   <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop">
                   </coupon-item>
                 </div>
-                <!-- <div class="load-more" flex="dir:top cross:center main:center" v-if="(pageRefund)*pageSize < totalCountRefund">
-                  <div class="start-load" v-tap="loadMoreRefund" v-if="refundLoad">加载更多</div>
-                  <div flex="dir:left cross:center" v-else>加载中
-                    <mt-spinner type="fading-circle" :size="12" color="#6b6b6b"></mt-spinner>
-                  </div>
-                </div> -->
               </scroller>
             </div>
           </transition-group>
@@ -113,20 +95,10 @@ export default {
       ],
       mobile: "",
       typeShow: false,
-      unpaidList: [],
-      paidList: [],
-      refundList: [],
+      unusedList: [],
+      usedList: [],
+      overdueList: [],
       activeTab: 0,
-      totalCountUnpaid: 0,
-      totalCountPaid: 0,
-      totalCountRefund: 0,
-      pageUnpaid: 1,
-      pagePaid: 1,
-      pageRefund: 1,
-      unpaidLoad: true,
-      paidLoad: true,
-      refundLoad: true,
-      pageSize: 5,
       animate: "left",
       couponlist: [
         {
@@ -141,7 +113,8 @@ export default {
       ],
       currentType: { index: 0, name: "全部代金券" },
       temp: {},
-      Loop: null
+      Loop: null,
+      listAll: {}
     };
   },
   components: {
@@ -158,19 +131,19 @@ export default {
       }
       switch (newdata) {
         case 0:
-          this.pageUnpaid = 1;
-          this.totalCountUnpaid = 0;
-          this.orderQueryUnPaid();
+          if (this.unusedList.length < 1) {
+            this.orderQueryUnused();
+          }
           break;
         case 1:
-          this.pagePaid = 1;
-          this.totalCountPaid = 0;
-          this.orderQueryPaid();
+          if (this.usedList.length < 1) {
+            this.orderQueryUsed();
+          }
           break;
         case 2:
-          this.pageRefund = 1;
-          this.totalCountRefund = 0;
-          this.orderQueryRefund();
+          if (this.overdueList.length < 1) {
+            this.orderQueryOverdue();
+          }
           break;
       }
     }
@@ -193,36 +166,37 @@ export default {
     onTypeChange(picker, values) {
       // 0 1 2
       this.temp = values[0];
-      // this.unpaidList = data.data.data;
-
-      // this.totalCountUnpaid = data.data.totalCount;
     },
     selectType() {
       this.currentType = this.temp;
       if (this.activeTab == 0) {
-        this.orderQueryUnPaid();
+        this.unusedList = this.filterList("unusedList");
       } else if (this.activeTab == 1) {
-        this.orderQueryPaid();
+        this.usedList = this.filterList("usedList");
       } else if (this.activeTab == 2) {
-        this.orderQueryRefund();
+        this.overdueList = this.filterList("overdueList");
       }
       this.typeShow = false;
     },
     typeShowFun() {
       this.typeShow = !this.typeShow;
     },
-    orderQueryUnPaid: function() {
+    filterList(list) {
+      if (this.currentType.index == 0) {
+        return this.listAll[list];
+      } else return this.listAll[list].filter(e => e.wbcLx == this.currentType.name);
+    },
+    orderQueryUnused: function() {
       Tool.post(
         "VoucherQuery",
         {
           mobile: this.mobile,
-          status: "未使用",
-          type: this.currentType.index == 0 ? "" : this.currentType.name
+          status: "未使用"
         },
         data => {
           if (data.code == 200) {
-            this.unpaidList = data.data;
-            this.totalCountUnpaid = data.data.length;
+            this.listAll.unusedList = data.data;
+            this.unusedList = this.filterList("unusedList");
             this.$nextTick(() => {
               this.$children[1].$children[0].mySroller.scrollTo(0, 0);
               this.$children[1].$children[0].mySroller.y = 0;
@@ -237,18 +211,17 @@ export default {
         }
       );
     },
-    orderQueryPaid: function() {
+    orderQueryUsed: function() {
       Tool.post(
         "VoucherQuery",
         {
           mobile: this.mobile,
-          status: "已使用",
-          type: this.currentType.index == 0 ? "" : this.currentType.name
+          status: "已使用"
         },
         data => {
           if (data.code == 200) {
-            this.paidList = data.data;
-            this.totalCountPaid = data.data.length;
+            this.listAll.usedList = data.data;
+            this.usedList = this.filterList("usedList");
             this.$nextTick(() => {
               this.$children[1].$children[1].mySroller.scrollTo(0, 0);
               this.$children[1].$children[1].mySroller.y = 0;
@@ -263,18 +236,17 @@ export default {
         }
       );
     },
-    orderQueryRefund: function() {
+    orderQueryOverdue: function() {
       Tool.post(
         "VoucherQuery",
         {
           mobile: this.mobile,
-          status: "已过期",
-          type: this.currentType.index == 0 ? "" : this.currentType.name
+          status: "已过期"
         },
         data => {
           if (data.code == 200) {
-            this.refundList = data.data;
-            this.totalCountRefund = data.data.length;
+            this.listAll.overdueList = data.data;
+            this.overdueList = this.filterList("overdueList");
             this.$nextTick(() => {
               this.$children[1].$children[2].mySroller.scrollTo(0, 0);
               this.$children[1].$children[2].mySroller.y = 0;
@@ -289,101 +261,12 @@ export default {
         }
       );
     },
-    // loadMoreUnpaid: function() {
-    //   var self = this;
-    //   self.pageUnpaid++;
-    //   self.totalCountUnpaid = 1000000; //保证加载更多在加载完成前一直显示
-    //   self.unpaidLoad = false;
-    //   Tool.get(
-    //     "unused",
-    //     {
-    //       userId: Tool.getUserInfo("userId"),
-    //       status: 1,
-    //       page: this.pageUnpaid,
-    //       pageSize: this.pageSize
-    //     },
-    //     data => {
-    //       if (data.code == 200) {
-    //         this.unpaidList = this.unpaidList.concat(data.data.data);
-    //         this.totalCountUnpaid = data.data.totalCount;
-    //         self.unpaidLoad = true;
-    //       } else {
-    //         Toast({
-    //           duration: 1000,
-    //           message: data.msg
-    //         });
-    //       }
-    //     },
-    //     { mask: false }
-    //   );
-    // },
-    // loadMorePaid: function() {
-    //   var self = this;
-    //   self.pagePaid++;
-    //   self.totalCountPaid = 1000000; //保证加载更多在加载完成前一直显示
-    //   self.paidLoad = false;
-    //   Tool.get(
-    //     "AaPackageOrderQuery",
-    //     {
-    //       userId: Tool.getUserInfo("userId"),
-    //       status: 2,
-    //       page: this.pagePaid,
-    //       pageSize: this.pageSize
-    //     },
-    //     data => {
-    //       if (data.code == 200) {
-    //         this.paidList = this.paidList.concat(data.data.data);
-    //         this.totalCountPaid = data.data.totalCount;
-    //         self.paidLoad = true;
-    //       } else {
-    //         Toast({
-    //           duration: 1000,
-    //           message: data.msg
-    //         });
-    //       }
-    //     },
-    //     { mask: false }
-    //   );
-    // },
-    // loadMoreRefund: function() {
-    //   var self = this;
-    //   self.pageRefund++;
-    //   self.totalCountRefund = 1000000; //保证加载更多在加载完成前一直显示
-    //   self.refundLoad = false;
-    //   Tool.get(
-    //     "AaPackageOrderQuery",
-    //     {
-    //       userId: Tool.getUserInfo("userId"),
-    //       status: 3,
-    //       page: this.pageRefund,
-    //       pageSize: this.pageSize
-    //     },
-    //     data => {
-    //       if (data.code == 200) {
-    //         this.refundList = this.refundList.concat(data.data.data);
-    //         this.totalCountRefund = data.data.totalCount;
-    //         self.refundLoad = true;
-    //       } else {
-    //         Toast({
-    //           duration: 1000,
-    //           message: data.msg
-    //         });
-    //       }
-    //     },
-    //     { mask: false }
-    //   );
-    // },
-
     resetData: function() {
-      this.unpaidList = [];
-      this.paidList = [];
-      this.refundList = [];
-      this.totalCountUnpaid = 0;
-      this.totalCountPaid = 0;
-      this.totalCountRefund = 0;
-      this.pageUnpaid = 1;
-      this.pagePaid = 1;
-      this.pageRefund = 1;
+      this.unusedList = [];
+      this.usedList = [];
+      this.overdueList = [];
+      // this.currentType = { index: 0, name: "全部代金券" };
+      this.listAll = {};
     }
   },
   updated: function() {
@@ -407,11 +290,11 @@ export default {
     this.resetData();
     this.mobile = Tool.getUserInfo("telephone");
     if (this.activeTab == 0) {
-      this.orderQueryUnPaid();
+      this.orderQueryUnused();
     } else if (this.activeTab == 1) {
-      this.orderQueryPaid();
+      this.orderQueryUsed();
     } else if (this.activeTab == 2) {
-      this.orderQueryRefund();
+      this.orderQueryOverdue();
     }
   },
   beforeRouteEnter: (to, from, next) => {

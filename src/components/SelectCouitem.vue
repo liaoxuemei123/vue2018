@@ -3,9 +3,9 @@
     <div class="body" v-tap="onClick">
       <div class="order-info" flex="dir:top box:mean">
         <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
-        <div :class="['baseInfo', {'baseInfo-canuse': item.wbcuStatus=='未使用'}, {'baseInfo-used': item.wbcuStatus!='未使用'}]" flex="dir:top">
+        <div :class="['baseInfo', {'baseInfo-canuse': item.isAble=='Y'}, {'baseInfo-used': item.isAble!='Y'}]" flex="dir:top">
           <p class="couponType">
-            {{wbcName}}
+            {{item.wbcName}}
           </p>
           <div class="couponScene" flex="dir:left box:first">
             <div class="scene-l">
@@ -13,15 +13,14 @@
               <span class="price nowrap-flex">{{item.wbcPrice}}</span>
             </div>
             <!-- scene-r-used 右侧使用之后的颜色 -->
-            <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'">
-              <!-- <p class="h3 useCondition unvisible">全场通用</p> -->
-              <p class="h3 useCode nowrap-flex">使用码: {{item.wbcuNumber}}
+            <div :class="item.isAble=='Y'?'scene-r':'scene-r-used'">
+              <p class="useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
             </div>
           </div>
         </div>
         <!-- 可以用才显示 -->
-        <div class="select" flex="main:right cross:center" v-if="item.wbcuStatus=='未使用'">
+        <div class="select" flex="main:right cross:center" v-if="item.isAble=='Y'">
           <i class="iconfont icon-select" v-if="active"></i>
           <i class="iconfont icon-circle active" v-else></i>
         </div>
@@ -30,7 +29,7 @@
     </div>
     <div class="footer">
       <!-- detail-used -->
-      <div :class="['detail',{'detail-canuse':item.wbcuStatus=='未使用'},{'detail-used':item.wbcuStatus!='未使用'}]">
+      <div :class="['detail',{'detail-canuse':item.isAble=='Y'},{'detail-used':item.isAble!='Y'}]">
         <div class="detail-btn" flex="dir:left main:justify cross:center" @click="detailShow=!detailShow">
           <div flex="dir:left cross:center">
             <span class="h5">详情
@@ -47,7 +46,8 @@
 
         <transition name="fade">
           <div class="detail-content" v-show="detailShow">
-            <span>{{item.wbcSygz}}</span>
+            <span v-if="item.isAble=='Y'">{{item.wbcSygz}}</span>
+            <span v-if="item.isAble=='N'">不可用原因：{{item.wbcuRemark}}</span>
           </div>
         </transition>
       </div>
@@ -81,6 +81,15 @@ export default {
     }
   },
   filters: {},
+  watch: {
+    item: {
+      handler: function(val) {
+        // 数组去重
+        this.detailShow = val.isAble == "Y" ? false : true;
+      },
+      immediate: true
+    }
+  },
   methods: {}
 };
 </script>

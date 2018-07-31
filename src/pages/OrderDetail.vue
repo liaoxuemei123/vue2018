@@ -22,14 +22,23 @@
           </div>
           <div class="section" v-if="orderInfo.status == 2 || orderInfo.status == 1">
             <div class="times" v-if="orderInfo.status == 2">使用次数/总次数：{{orderInfo.useNumber}}/{{orderInfo.allNumber}}</div>
-            <div class="package-item">保养项目：{{orderInfo.wbpByxm}}</div>
-            <div class="rangs">使用范围：{{orderInfo.storeName | storeNameFilter}}</div>
+            <div class="package-item">
+              <span class="des">保养项目</span>：{{orderInfo.wbpByxm}}</div>
+            <div class="rangs">
+              <span class="des">使用范围</span>：{{orderInfo.storeName | storeNameFilter}}</div>
             <div class="deadline">
-              <span>到期时间：{{orderInfo.expirationDate | expirationFilter}}</span>
+              <span>
+                <span class="des">到期时间</span>：{{orderInfo.expirationDate | expirationFilter}}</span>
             </div>
-            <div class="user-phone">电话号码：{{orderInfo.phone}}</div>
+            <div class="user-phone">
+              <span class="des">电话号码</span>：{{orderInfo.phone}}</div>
             <!-- <div class="coupon">优惠金额：{{orderInfo.coupon}}</div> -->
-            <div class="price">总额：{{orderInfo.orderPrice | priceFilter}}</div>
+            <div class="price">
+              <span class="des">订单总额</span>：{{orderInfo.costPrice | priceFilter}}</div>
+            <div class="price">
+              <span class="des">优惠券</span>：-{{orderInfo.costPrice-0-orderInfo.orderPrice | priceFilter}}</div>
+            <div class="price">
+              <span class="des">实付金额</span>：{{orderInfo.orderPrice | priceFilter}}</div>
           </div>
           <div class="bottom" flex="dir:left cross:center" v-if="orderInfo.status == 2">
             使用方法：到店保养前告知服务顾问已购买套餐即可使用
@@ -302,6 +311,15 @@ export default {
           a {
             color: #fff;
           }
+        }
+        .des {
+          display: inline-block;
+          width: 65px;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          text-align: justify;
+          text-align-last: justify;
+          -moz-text-align-last: justify;
         }
       }
       .bottom {

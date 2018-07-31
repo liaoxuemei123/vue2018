@@ -4,8 +4,9 @@
   <div class="page-container">
     <div class="page home-page" flex="dir:top box:first">
       <nav-bar title="领取代金券" />
-      <div class="page-content" flex="dir:top box:first">
-
+      <div class="page-content" flex="dir:top main:center">
+        <input type="tel" class="receive" placeholder="请输入手机号领取优惠券" v-model="mobile">
+        <div class="sure" @click="receiveCoupon">确认领取</div>
       </div>
     </div>
   </div>
@@ -18,14 +19,16 @@ import { Toast } from "mint-ui";
 export default {
   name: "receivecoupon",
   data() {
-    return {};
+    return {
+      mobile: ""
+    };
   },
   components: {
     NavBar
   },
   watch: {},
   methods: {
-    receivecoupon() {
+    receiveCoupon() {
       Tool.post(
         "url",
         {
@@ -89,6 +92,24 @@ export default {
     height: 100%;
     overflow: auto;
     position: relative;
+    .receive {
+      border: none;
+      border-radius: 6px;
+      background-color: white;
+      padding: 15px;
+      font-size: 17px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .sure {
+      width: 100%;
+      text-align: center;
+      border-radius: 6px;
+      font-size: 17px;
+      background-color: white;
+      height: auto;
+      padding: 15px;
+    }
   }
 }
 </style>

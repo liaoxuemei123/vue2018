@@ -70,15 +70,15 @@
               <div class="value">{{userInfo.vin}}</div>
             </div>
           </div>
-          <div class="coupon-info" flex="dir:left box:mean" @click="selectCoupon">
+          <div class="coupon-info" flex="dir:left box:mean" @click="selectCoupon" v-if="this.isAbleLen!=0">
             <div class="" flex="dir:left cross:center main:justify">
               <div class="title">
                 <span>代金券</span>
                 <span class="selected" v-if="couponDes=='已选一张'">{{couponDes}}</span>
               </div>
               <div class="value" flex="dir:left cross:center" style="font-size:14px;">
-                <span v-if="couponDes=='已选一张'">优惠{{Number(discount).toFixed(2)}}元</span>
-                <span v-else>1张可用</span>
+                <span v-if="couponDes=='已选一张'">{{couponDetaildes}}</span>
+                <span v-else>{{this.isAbleLen}}张可用</span>
 
                 <i class="iconfont icon-go" style="color: #999;margin: 0;margin-right: 0.2rem;font-size: 0.6rem;"></i>
               </div>
@@ -103,7 +103,7 @@
             <span class="price">￥{{(Number(setDetail.price)-Number(discount)).toFixed(2)}}</span>
           </div>
           <div class="benifit-info" flex="dir:left main:left cross:center">
-            <span class="origin-fee">(保养费:￥{{setDetail.price}} </span>
+            <span class="origin-fee">(保养费:￥{{setDetail.price}} &nbsp;</span>
             <span class="benifit-fee">优惠金额:￥{{Number(discount).toFixed(2)}})</span>
           </div>
         </div>
@@ -173,6 +173,8 @@ export default {
       licenseShow: false,
       couponDes: "",
       discount: "0",
+      wbcuId: "",
+      couponDetaildes: "",
       wbpId: "",
       pageConfig: {
         fileds: [],
@@ -182,7 +184,8 @@ export default {
       GmConfig: {
         fileds: [],
         tags: []
-      }
+      },
+      isAbleLen: 0
     };
   },
   computed: {
@@ -205,12 +208,30 @@ export default {
   mounted() {
     let self = this;
     Bus.$on("data", e => {
-      if (e && e.id) {
-        this.discount = e.price;
+      if (e && e.wbcuId) {
+        // 在可用优惠券内无条件和满减两种类型差不多
+        switch (e.wbcLx) {
+          case "无条件":
+            this.discount = e.wbcPrice;
+            break;
+          case "满减":
+            this.discount = e.wbcPrice;
+            break;
+          case "折扣":
+            this.discount = Number(this.setDetail.price) - Number(this.setDetail.price) * e.wbcZk;
+            // 计算会不会有问题
+            break;
+          default:
+            this.discount = "0";
+            break;
+        }
         this.couponDes = "已选一张";
+        this.couponDetaildes = e.wbcName;
+        this.wbcuId = e.wbcuId;
       } else {
         this.discount = "0";
         this.couponDes = "";
+        this.wbcuId = "";
       }
     });
   },
@@ -282,7 +303,9 @@ export default {
             : "",
           phone: this.userInfo.tel,
           linkman: this.userInfo.contact,
-          orderPrice: this.setDetail.price,
+          orderPrice: Number(this.setDetail.price) - Number(this.discount),
+          cashcouponId: this.wbcuId,
+          costPrice: this.setDetail.price,
           carType: this.modelInfo.vehicleModel + " " + this.modelInfo.displacement,
           setMealId: this.setDetail.mealId,
           storeId: this.storeInfo.id
@@ -303,6 +326,8 @@ export default {
         },
         data => {
           if (data.code == 200) {
+            this.couponDes = "";
+            this.discount = "0";
             this.$router.push({ path: "/orderpay/" + data.data });
             Tool.localItem("orderUnPay", {
               count: this.orderUnPayCount + 1,
@@ -336,16 +361,44 @@ export default {
       const index = this.GmConfig.fileds.indexOf(filed);
       return !!this.GmConfig.tags[index];
     },
+    couponLength: function() {
+      Tool.post(
+        "VoucherQuery",
+        {
+          wbproductId: this.setInfo.wbpId,
+          storeId: this.storeInfo.id
+            ? this.storeInfo.id == "111111" ? "" : this.storeInfo.id
+            : "",
+          setmealId: this.setDetail.mealId,
+          mobile: this.userInfo.tel,
+          isAble: "Y",
+          status: "未使用"
+        },
+        data => {
+          if (data.code == 200) {
+            this.isAbleLen = data.data.length;
+          } else {
+            Toast({
+              duration: 1000,
+              message: data.msg
+            });
+          }
+        }
+      );
+    },
     ...mapMutations({
       setOrderUnPayCount: "UPDATE_ORDERCOUNT",
       proSure: "UPDATE_SURE"
     })
   },
   activated: function() {
+    if (this.$route.params.page == "personinfo") {
+      this.couponDes = "";
+      this.discount = "0";
+      this.couponLength();
+    }
     this.sure = this.protocolSure;
     var wbProduct = this.$route.params.id;
-    wbProduct ? (this.wbpId = wbProduct) : (wbProduct = this.wbpId);
-    console.log(this.setInfo);
     this.getPageConfig();
   },
   created: function() {

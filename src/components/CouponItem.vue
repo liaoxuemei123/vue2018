@@ -5,16 +5,16 @@
         <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
         <div :class="['baseInfo', {'baseInfo-canuse': item.wbcuStatus=='未使用'}, {'baseInfo-used': item.wbcuStatus!='未使用'}]" flex="dir:top">
           <p class="couponType">
-            {{item.wbcName}}
+            {{item.wbcLx=="折扣"?item.wbcLx:item.wbcName}}
           </p>
           <div class="couponScene" flex="dir:left box:first">
             <div class="scene-l">
               <span class="h2">¥</span>
-              <span class="price nowrap-flex">{{item.wbcPrice}}</span>
+              <span class="price nowrap-flex">{{item.wbcLx=="折扣"?item.wbcName:item.wbcPrice}}</span>
             </div>
             <!-- scene-r-used 右侧使用之后的颜色 -->
             <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'">
-              <p class="h3 useCode nowrap-flex">使用码: {{item.wbcuNumber}}
+              <p class="h3 useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
             </div>
           </div>

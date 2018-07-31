@@ -2,7 +2,7 @@
   <template>
   <div class="page-container">
     <div class="page home-page" flex="dir:top box:first">
-      <nav-bar title="代金券" />
+      <nav-bar title="代金券" :goBack="backto" />
       <div class="page-content" flex="dir:top box:first">
         <div class="tab">
           <div class="tab-container">
@@ -66,7 +66,10 @@ export default {
       activeTab: 0,
       animate: "left",
       select: -1,
-      mobile: ""
+      mobile: "",
+      wbproductId: "",
+      storeId: "",
+      setmealId: ""
     };
   },
   components: {
@@ -103,15 +106,26 @@ export default {
       } else {
         this.select = index;
         Bus.$emit("data", {
-          id: this.orderList[this.select].id,
-          price: this.orderList[this.select].price
+          wbcuId: this.orderList[this.select].wbcuId,
+          wbcLx: this.orderList[this.select].wbcLx,
+          wbcPrice: this.orderList[this.select].wbcPrice
         });
       }
       // Bus.$emit("msg", "我要传给兄弟组件们，你收到没有");
     },
     // 什么时候触发
-    backto: function(orderNo) {
-      Bus.$emit({ id: this.orderList[this.select].id, price: this.orderList[this.select].price });
+    backto: function() {
+      if (this.select == -1) {
+        Bus.$emit("data", "");
+      } else {
+        Bus.$emit("data", {
+          wbcuId: this.orderList[this.select].wbcuId,
+          wbcLx: this.orderList[this.select].wbcLx,
+          wbcPrice: this.orderList[this.select].wbcPrice,
+          wbcName: this.orderList[this.select].wbcName,
+          wbcZk: this.orderList[this.select].wbcZk
+        });
+      }
       // 传递id和价格
       // 非父子组件通信的一个方式 event bus
       this.$router.back();
@@ -120,11 +134,11 @@ export default {
       Tool.post(
         "VoucherQuery",
         {
-          wbproductId: "",
-          storeId: "",
-          setmealId: "",
+          wbproductId: this.wbproductId,
+          storeId: this.storeId,
+          setmealId: this.setmealId,
           mobile: this.mobile,
-          isAble: "可用",
+          isAble: "Y",
           status: "未使用"
         },
         data => {
@@ -148,11 +162,11 @@ export default {
       Tool.post(
         "VoucherQuery",
         {
-          wbproductId: "",
-          storeId: "",
-          setmealId: "",
+          wbproductId: this.wbproductId,
+          storeId: this.storeId,
+          setmealId: this.setmealId,
           mobile: this.mobile,
-          isAble: "不可用",
+          isAble: "N",
           status: "未使用"
         },
         data => {
@@ -190,6 +204,9 @@ export default {
     }
   },
   activated: function() {
+    this.wbproductId = this.$route.params.wbproductId;
+    this.storeId = this.$route.params.storeId;
+    this.setmealId = this.$route.params.setmealId;
     this.resetData();
     this.mobile = Tool.getUserInfo("telephone");
     if (this.activeTab == 0) {
