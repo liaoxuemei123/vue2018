@@ -150,15 +150,15 @@ export default {
   },
   methods: {
     showDeleteButton(item) {
-      clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
-      this.Loop = setTimeout(
-        function() {
-          MessageBox.confirm("确定要删除吗？代金券删除之后无法恢复")
-            .then(action => {})
-            .catch(err => {});
-        }.bind(this),
-        500
-      );
+      // clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+      // this.Loop = setTimeout(
+      //   function() {
+      //     MessageBox.confirm("确定要删除吗？代金券删除之后无法恢复")
+      //       .then(action => {})
+      //       .catch(err => {});
+      //   }.bind(this),
+      //   500
+      // );
     },
     clearLoop() {
       clearInterval(this.Loop);
