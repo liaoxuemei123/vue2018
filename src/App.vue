@@ -135,6 +135,10 @@ body {
   transform: translate3d(0%, 0, 0);
   z-index: 1001;
 }
+.mint-checkbox-input:checked + .mint-checkbox-core {
+  background-color: #26a2ff !important;
+  border-color: #26a2ff !important;
+}
 .push-leave-active {
   transition: all 0.2s ease-out;
   transform: translate3d(0%, 0, 0);

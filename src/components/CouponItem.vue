@@ -5,15 +5,15 @@
         <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
         <div :class="['baseInfo', {'baseInfo-canuse': item.wbcuStatus=='未使用'}, {'baseInfo-used': item.wbcuStatus!='未使用'}]" flex="dir:top">
           <p class="couponType">
-            {{item.wbcLx=="折扣"?item.wbcLx:item.wbcName}}
+            {{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcLx:item.wbcName}}
           </p>
           <div class="couponScene" flex="dir:left box:first">
             <div class="scene-l">
               <span class="h2">¥</span>
-              <span class="price nowrap-flex">{{item.wbcLx=="折扣"?item.wbcName:item.wbcPrice}}</span>
+              <span class="price nowrap-flex">{{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcName:item.wbcPrice}}</span>
             </div>
             <!-- scene-r-used 右侧使用之后的颜色 -->
-            <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'">
+            <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'" style="padding-left: 20px;">
               <p class="h3 useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
             </div>
@@ -23,16 +23,16 @@
     </div>
     <div class="footer">
       <div :class="['detail',{'detail-canuse':item.wbcuStatus=='未使用'},{'detail-used':item.wbcuStatus!='未使用'}]">
-        <div class="detail-btn" flex="dir:left main:justify cross:center" @click="detailShow=!detailShow">
-          <div flex="dir:left cross:center">
-            <span class="h5">详情
-            </span>
-            <i class="iconfont" :class="detailShow?'icon-up':'icon-down'"></i>
-          </div>
+        <div class="detail-btn" flex="dir:right main:justify cross:center" @click="detailShow=!detailShow">
 
           <div class="time">
             <span class="startTime">{{item.wbcKsyxq}}</span>-
             <span class="endTime">{{item.wbcJsyxq}}</span>
+          </div>
+          <div flex="dir:left cross:center">
+            <span class="h5">详情
+            </span>
+            <i class="iconfont" :class="detailShow?'icon-up':'icon-down'"></i>
           </div>
         </div>
         <!-- 时间一定会显示 -->
@@ -44,7 +44,7 @@
         </transition>
       </div>
     </div>
-    <div :class="['pic', {'pic-used': item.status==2}, {'pic-overUse': item.status==3}]" flex="dir:top"></div>
+    <div :class="['pic', {'pic-used': item.wbcuStatus=='已使用'}, {'pic-overUse': item.wbcuStatus=='已过期'}]" flex="dir:top"></div>
   </div>
 </template>
 <script>
@@ -84,53 +84,9 @@ export default {
           return "线下代金券";
           break;
       }
-    },
-    universalFilter: function(val) {
-      if (val == 1) {
-        return "全国服务门店使用";
-      } else {
-        return "指定服务门店使用";
-      }
     }
   },
-  methods: {
-    viewDetail: function(id) {
-      this.$router.push({ path: "orderdetail/" + id });
-    },
-    goEvaluate: function() {
-      this.$router.push({ path: "evaluate" });
-    },
-    goPay: function(orderNo) {
-      this.$router.push({ path: "/orderpay/" + orderNo });
-    },
-    refund: function(orderNo) {
-      this.$router.push({ path: "/refund/" + orderNo });
-    },
-    goReceipt: function(orderNo) {
-      // this.$router.push({name:'personreceipt',params:{needReceipt:this.userInfo.needReceipt,selectTitle:this.userInfo.selectTitle}});
-      // needReceipt:'1', //1默认不要发票 selectTitle:'0', // 0代表个人
-
-      // this.setReceiptInfo({needReceipt:1,selectTitle:'0',receiver:'',receMobile:'',zip:'',selectAddr:'',addressCont:'',comName:'',receiptCode:''}); //是否要清空
-      this.$router.push({
-        name: "personreceipt",
-        params: { needReceipt: 1, selectTitle: 1, orderNo: orderNo }
-      });
-    },
-    goReceiptPic: function(id) {
-      // this.$router.push({name:'showreceipt',params:{id:id}});
-      Tool.post("getInvoiceUrl", { id: id }, data => {
-        if (data.code == 200) {
-          // this.pdfSrc = data.data
-          window.open(data.data, "_self", "location=no");
-        } else {
-          Toast({
-            duration: 1000,
-            message: data.msg
-          });
-        }
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>
@@ -166,7 +122,7 @@ p {
       height: 2.6rem;
       padding: 10px 10px;
       background: url(../assets/line.png) no-repeat center;
-      background-position-x: 30%;
+      background-position-x: 40%;
       .baseInfo-canuse {
         color: #ff6e04;
       }
@@ -185,7 +141,7 @@ p {
               font-size: 0.6rem;
             }
             .price {
-              font-size: 1.5rem;
+              font-size: 1rem;
               height: 35px;
               line-height: 35px;
             }

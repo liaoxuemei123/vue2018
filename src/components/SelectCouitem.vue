@@ -13,7 +13,7 @@
               <span class="price nowrap-flex">{{item.wbcPrice}}</span>
             </div>
             <!-- scene-r-used 右侧使用之后的颜色 -->
-            <div :class="item.isAble=='Y'?'scene-r':'scene-r-used'">
+            <div :class="item.isAble=='Y'?'scene-r':'scene-r-used'" style="padding-left: 20px;">
               <p class="useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
             </div>
@@ -117,6 +117,8 @@ p {
     .order-info {
       height: 2.6rem;
       padding: 10px 10px;
+      background: url(../assets/line.png) no-repeat center;
+      background-position-x: 40%;
       .select {
         .iconfont {
           font-size: 0.8rem;
@@ -144,7 +146,7 @@ p {
               font-size: 0.6rem;
             }
             .price {
-              font-size: 1.5rem;
+              font-size: 1rem;
               height: 35px;
               line-height: 35px;
             }
