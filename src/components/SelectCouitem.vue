@@ -34,7 +34,7 @@
             </div>
             <div class="scene-r" style="padding-left: 20px;">
               <!-- <p class="useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}} -->
-              </p>
+              <!-- </p> -->
             </div>
           </div>
         </div>
