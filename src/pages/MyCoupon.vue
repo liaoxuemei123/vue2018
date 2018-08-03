@@ -47,7 +47,7 @@
               </div>
               <scroller refMark='2'>
                 <div class="coupon-item" v-for="(item, index) in overdueList" :key="index">
-                  <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop">
+                  <coupon-item :item="item" :showDeleteButton="showDeleteButton.bind(this, item)" :clearLoop="clearLoop" :isover="true">
                   </coupon-item>
                 </div>
               </scroller>

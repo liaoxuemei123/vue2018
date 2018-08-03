@@ -1,8 +1,7 @@
 <template>
   <div class="order-container" @touchstart="showDeleteButton" @touchend="clearLoop">
     <div class="body">
-      <div class="order-info" flex="dir:top box:mean">
-        <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
+      <div class="order-info" flex="dir:top box:mean" v-if="!isover">
         <div :class="['baseInfo', {'baseInfo-canuse': item.wbcuStatus=='未使用'}, {'baseInfo-used': item.wbcuStatus!='未使用'}]" flex="dir:top">
           <p class="couponType">
             {{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcLx:item.wbcName}}
@@ -12,7 +11,6 @@
               <span class="h2">¥</span>
               <span class="price nowrap-flex">{{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcName:item.wbcPrice}}</span>
             </div>
-            <!-- scene-r-used 右侧使用之后的颜色 -->
             <div :class="item.wbcuStatus=='未使用'?'scene-r':'scene-r-used'" style="padding-left: 20px;">
               <p class="h3 useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
@@ -20,9 +18,28 @@
           </div>
         </div>
       </div>
+
+      <div class="order-info" flex="dir:top box:mean" v-else>
+        <div class="baseInfo baseInfo-used" flex="dir:top">
+          <p class="couponType">
+            {{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcLx:item.wbcName}}
+          </p>
+          <div class="couponScene" flex="dir:left box:first">
+            <div class="scene-l">
+              <span class="h2">¥</span>
+              <span class="price nowrap-flex">{{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcName:item.wbcPrice}}</span>
+            </div>
+            <div class="scene-r-used" style="padding-left: 20px;">
+              <p class="h3 useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="footer">
-      <div :class="['detail',{'detail-canuse':item.wbcuStatus=='未使用'},{'detail-used':item.wbcuStatus!='未使用'}]">
+      <div :class="['detail',{'detail-canuse':item.wbcuStatus=='未使用'},{'detail-used':item.wbcuStatus!='未使用'},{'detail-used':isover==true}]">
         <div class="detail-btn" flex="dir:right main:justify cross:center" @click="detailShow=!detailShow">
 
           <div class="time">
@@ -36,7 +53,6 @@
           </div>
         </div>
         <!-- 时间一定会显示 -->
-
         <transition name="fade">
           <div class="detail-content" v-show="detailShow">
             <span>{{item.wbcSygz}}</span>
@@ -44,7 +60,8 @@
         </transition>
       </div>
     </div>
-    <div :class="['pic', {'pic-used': item.wbcuStatus=='已使用'}, {'pic-overUse': item.wbcuStatus=='已过期'}]" flex="dir:top"></div>
+    <div :class="['pic', {'pic-used': item.wbcuStatus=='已使用'}, {'pic-overUse': item.wbcuStatus=='已过期'}]" flex="dir:top" v-if="!isover"></div>
+    <div class="pic pic-overUse" v-else></div>
   </div>
 </template>
 <script>
@@ -66,6 +83,10 @@ export default {
       default: function() {
         return;
       }
+    },
+    isover: {
+      type: Boolean,
+      default: false
     },
     clearLoop: {
       type: Function,
@@ -134,7 +155,7 @@ p {
           font-size: 0.6rem;
         }
         .couponScene {
-          margin-top: 8px;
+          margin-top: 4px;
           .scene-l {
             min-width: 40%;
             .h2 {
@@ -170,8 +191,8 @@ p {
       border-bottom: 5px solid;
       border-radius: 5px;
       .detail-btn {
-        height: 30px;
-        line-height: 30px;
+        height: 25px;
+        line-height: 25px;
       }
     }
     .detail-canuse {

@@ -1,35 +1,52 @@
 <template>
   <div class="order-container">
     <div class="body" v-tap="onClick">
-      <div class="order-info" flex="dir:top box:mean">
-        <!-- baseInfo-canuse baseInfo-used 左侧文字颜色 两种 -->
+      <div class="order-info" flex="dir:top box:mean" v-if="!isreceive">
         <div :class="['baseInfo', {'baseInfo-canuse': item.isAble=='Y'}, {'baseInfo-used': item.isAble!='Y'}]" flex="dir:top">
           <p class="couponType">
-            {{item.wbcName}}
+            {{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcLx:item.wbcName}}
           </p>
           <div class="couponScene" flex="dir:left box:first">
             <div class="scene-l">
               <span class="h2">¥</span>
-              <span class="price nowrap-flex">{{item.wbcPrice}}</span>
+              <span class="price nowrap-flex">{{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcName:item.wbcPrice}}</span>
             </div>
-            <!-- scene-r-used 右侧使用之后的颜色 -->
             <div :class="item.isAble=='Y'?'scene-r':'scene-r-used'" style="padding-left: 20px;">
               <p class="useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}}
               </p>
             </div>
           </div>
         </div>
-        <!-- 可以用才显示 -->
         <div class="select" flex="main:right cross:center" v-if="item.isAble=='Y'">
           <i class="iconfont icon-select" v-if="active"></i>
           <i class="iconfont icon-circle active" v-else></i>
         </div>
       </div>
+      <div class="order-info" flex="dir:top box:mean" v-else>
+        <div class="baseInfo baseInfo-canuse" flex="dir:top">
+          <p class="couponType">
+            {{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcLx:item.wbcName}}
+          </p>
+          <div class="couponScene" flex="dir:left box:first">
+            <div class="scene-l">
+              <span class="h2">¥</span>
+              <span class="price nowrap-flex">{{(item.wbcLx=="折扣"||item.wbcLx=="线下抵扣")?item.wbcName:item.wbcPrice}}</span>
+            </div>
+            <div class="scene-r" style="padding-left: 20px;">
+              <!-- <p class="useCode nowrap-flex" style="font-size:15px;">使用码: {{item.wbcuNumber}} -->
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="select" flex="main:right cross:center">
+          <i class="iconfont icon-select" v-if="active" style="margin-top: -15px;margin-right: 13%;"></i>
+          <i class="iconfont icon-circle active" v-else style="margin-top: -15px;margin-right: 13%;"></i>
+        </div>
+      </div>
 
     </div>
     <div class="footer">
-      <!-- detail-used -->
-      <div :class="['detail',{'detail-canuse':item.isAble=='Y'},{'detail-used':item.isAble!='Y'}]">
+      <div :class="['detail',{'detail-canuse':item.isAble=='Y'},{'detail-used':item.isAble!='Y'}]" v-if="!isreceive">
         <div class="detail-btn" flex="dir:left main:justify cross:center" @click="detailShow=!detailShow">
           <div flex="dir:left cross:center">
             <span class="h5">详情
@@ -42,12 +59,30 @@
             <span class="endTime">{{item.wbcJsyxq}}</span>
           </div>
         </div>
-        <!-- 时间一定会显示 -->
-
         <transition name="fade">
           <div class="detail-content" v-show="detailShow">
             <span v-if="item.isAble=='Y'">{{item.wbcSygz}}</span>
             <span v-if="item.isAble=='N'">不可用原因：{{item.wbcuRemark}}</span>
+          </div>
+        </transition>
+      </div>
+
+      <div class="detail detail-canuse" v-else>
+        <div class="detail-btn" flex="dir:left main:justify cross:center" @click="detailShow=!detailShow">
+          <div flex="dir:left cross:center">
+            <span class="h5">详情
+            </span>
+            <i class="iconfont" :class="detailShow?'icon-up':'icon-down'"></i>
+          </div>
+
+          <div class="time">
+            <span class="startTime">{{item.wbcksyxq}}</span>-
+            <span class="endTime">{{item.wbcJsyxq}}</span>
+          </div>
+        </div>
+        <transition name="fade">
+          <div class="detail-content" v-show="detailShow">
+            <span>{{item.wbcSygz}}</span>
           </div>
         </transition>
       </div>
@@ -75,6 +110,10 @@ export default {
         return;
       }
     },
+    isreceive: {
+      type: Boolean,
+      default: false
+    },
     active: {
       type: Boolean,
       default: false
@@ -84,8 +123,11 @@ export default {
   watch: {
     item: {
       handler: function(val) {
-        // 数组去重
-        this.detailShow = val.isAble == "Y" ? false : true;
+        if (val.isAble) {
+          this.detailShow = val.isAble == "Y" ? false : true;
+        } else {
+          this.detailShow = false;
+        }
       },
       immediate: true
     }
@@ -139,7 +181,7 @@ p {
           font-size: 0.6rem;
         }
         .couponScene {
-          margin-top: 8px;
+          margin-top: 4px;
           .scene-l {
             min-width: 40%;
             .h2 {
@@ -175,8 +217,8 @@ p {
       border-bottom: 5px solid;
       border-radius: 5px;
       .detail-btn {
-        height: 30px;
-        line-height: 30px;
+        height: 25px;
+        line-height: 25px;
       }
     }
     .detail-canuse {

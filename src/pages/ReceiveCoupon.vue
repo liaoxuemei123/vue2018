@@ -1,94 +1,100 @@
-
 <!-- Created by anyc on 2018-07-06. 组件名称 -->
   <template>
   <div class="page-container">
-    <div class="page home-page" flex="dir:top box:first">
+    <div class="page home-page" flex="dir:top box:justify">
       <nav-bar title="领取代金券" />
-      <div class="page-content" flex="dir:top ">
-        <div class="meal-list">
-          <label class="mint-checklist-title">请选择代金券类型</label>
-          <div class="meal-item" v-tap.prevent="selectedMeal.bind(this,index)" v-for="(item,index) in options" :key="index" flex="dir:left cross:center main:justify">
-            <div class="oil-item">{{item}}</div>
-            <i class="iconfont icon-select" v-if="selectTitle == index"></i>
-            <i class="iconfont icon-circle active" v-else></i>
+      <div class="page-content" flex="dir:top box:first">
+
+        <div class="order-list-container">
+          <div class="tab-all tabs" key="all">
+            <div class="no-goods" flex="dir:top cross:center" v-if="orderList.length == 0">
+              <i class="iconfont icon-goods"></i>
+              <span>没有相关代金券</span>
+            </div>
+            <div class="select-couitem" v-for="(item, index) in orderList" :key="index">
+              <select-couitem :item="item" :onClick="selectItem.bind(this, item, index)" :active="index == select" :isreceive="true"></select-couitem>
+            </div>
           </div>
         </div>
-        <div class="meal-list" flex="dir:top">
-          <label class="mint-checklist-title">请输入手机号</label>
-          <input type="tel" class="receive" placeholder="请输入手机号" v-model="mobile" maxlength="11">
+      </div>
+
+      <div class="button-control" flex="dir:top box:justify">
+        <input type="tel" placeholder="请输入手机号" maxlength="11" v-model="mobile" style="border:none;text-align:center;height: 2.1rem; line-height: 2.1rem;font-size: 0.75rem;" />
+        <div class="next-button" @click="receiveCoupon">
+          确定
         </div>
-        <div class="sure" @click="receiveCoupon" v-show="1==0">确认领取</div>
       </div>
     </div>
-    <!-- <transition name="fade">
-      <div class="down-list-mask" v-if="typeShow" @click="typeShow=false"></div>
-    </transition>
-    <transition name="slide-up">
-      <div class="down-list" v-show="typeShow">
-        <div class="toolbar" flex="dir:left box:mean">
-          <div class="cancel" @click="typeShow=false" flex="dir:left cross:center main:left">
-            取消
-          </div>
-          <div class="sure" @click="selectType" flex="dir:left cross:center main:right">
-            确定
-          </div>
-        </div>
-        <mt-picker :slots="couponlist" @change="onTypeChange" valueKey="name"></mt-picker>
-      </div>
-    </transition> -->
   </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar";
+import SelectCouitem from "../components/SelectCouitem";
 import Tool from "../utils/Tool";
-import { Toast, Checklist } from "mint-ui";
+import Scroller from "../components/Scroller";
+import { Toast } from "mint-ui";
+import store from "../model";
+import Bus from "../utils/Bus.js";
 export default {
   name: "receivecoupon",
   data() {
     return {
+      orderList: [],
+      select: -1,
       mobile: "",
-      value: [],
-      selectTitle: "",
-      options: ["无条件", "折扣", "满减", "线下抵扣"]
-      // options: [
-      //   {
-      //     label: "无条件",
-      //     value: "无条件"
-      //   },
-      //   {
-      //     label: "折扣",
-      //     value: "折扣"
-      //   },
-      //   {
-      //     label: "满减",
-      //     value: "满减"
-      //   },
-      //   {
-      //     label: "线下抵扣",
-      //     value: "线下抵扣"
-      //   }
-      // ]
+      wbproductId: "",
+      storeId: "",
+      setmealId: "",
+      regexc: /^1[3-9]\d{9}$/
     };
   },
   components: {
-    NavBar
+    NavBar,
+    SelectCouitem
   },
-  watch: {},
   methods: {
-    selectedMeal: function(index) {
-      this.selectTitle = index;
+    selectItem: function(item, index) {
+      if (this.select == index) {
+        this.select = -1;
+      } else {
+        this.select = index;
+      }
     },
     receiveCoupon() {
+      if (this.select == -1) {
+        Toast({
+          duration: 1000,
+          message: "请选择代金券类型"
+        });
+        return false;
+      }
+      if (this.mobile === "") {
+        Toast({
+          duration: 1000,
+          message: "请输入手机号"
+        });
+        return false;
+      }
+      if (!this.regexc.test(this.mobile)) {
+        Toast({
+          duration: 1000,
+          message: "手机号格式不正确"
+        });
+        return false;
+      }
       Tool.post(
-        "url",
+        "VoucherReceive",
         {
-          xxx: "xxx",
-          xxx: "1"
+          mobile: this.mobile,
+          wbcashcouponId: this.orderList[this.select].wbcId
         },
         data => {
           if (data.code == 200) {
-            // 成功则页面显示
+            Toast({
+              duration: 1000,
+              message: "领取成功，请到账户查看"
+            });
           } else {
             Toast({
               duration: 1000,
@@ -97,9 +103,26 @@ export default {
           }
         }
       );
+    },
+    orderQueryAll: function() {
+      Tool.post("VoucherList", {}, data => {
+        if (data.code == 200) {
+          this.orderList = data.data;
+        } else {
+          Toast({
+            duration: 1000,
+            message: data.msg
+          });
+        }
+      });
     }
   },
-  activated: function() {}
+  activated: function() {
+    this.orderQueryAll();
+  },
+  beforeRouteEnter: (to, from, next) => {
+    Tool.routerEnter(to, from, next);
+  }
 };
 </script>
 
@@ -109,83 +132,57 @@ export default {
   position: absolute;
   width: 100%;
 }
-.down-list-mask {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  z-index: 1;
-}
-.down-list {
-  z-index: 1;
-  position: absolute;
-  bottom: 0rem;
-  width: 100%;
-  background-color: #fff;
-  .toolbar {
-    height: 1.5rem;
-    font-size: 0.67rem;
-    color: #00bffe;
-    .cancel {
-      padding-left: 1.5rem;
-    }
-    .sure {
-      padding-right: 1.5rem;
-    }
-  }
-}
 .page {
   height: 100%;
   position: absolute;
   width: 100%;
+  .button-control {
+    .next-button {
+      text-align: center;
+      color: #fff;
+      background-color: #389cf2;
+      height: 2.1rem;
+      line-height: 2.1rem;
+      font-size: 0.67rem;
+    }
+  }
   .page-content {
     background-color: #efefef;
     height: 100%;
     overflow: auto;
     position: relative;
-    .meal-list {
-      .meal-item {
-        background-color: #fff;
-        box-sizing: border-box;
-        color: inherit;
-        min-height: 48px;
-        overflow: hidden;
-        position: relative;
-        text-decoration: none;
-        border-bottom: 1px solid #efefef;
-        font-size: 15px;
-        padding: 0 10px;
-        .iconfont {
-          color: #ccc;
-          margin-right: 0.1rem;
-          font-size: 20px;
+    padding-top: 10px;
+    .order-list-container {
+      position: relative;
+      .tabs {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        .no-goods {
+          margin-top: 2rem;
+          width: 100%;
+          overflow: auto;
+          .iconfont {
+            font-size: 2.5rem;
+            color: #ccc;
+          }
+          span {
+            height: 2rem;
+            line-height: 2rem;
+            font-size: 0.7rem;
+            color: #aaa;
+          }
         }
-        .icon-select {
-          color: #26a2ff;
-          font-size: 20px;
+        .select-couitem {
+          background-color: #fff;
+          margin-bottom: 0.5rem;
+          margin-left: 10px;
+          margin-right: 10px;
+          border-top: none;
+          border-bottom: none;
+          border-radius: 5px;
         }
       }
-      .receive {
-        border: none;
-        border-radius: 6px;
-        background-color: white;
-        padding: 15px;
-        font-size: 17px;
-        text-align: center;
-      }
-      .mint-checklist-title {
-        font-size: 15px;
-        color: black;
-      }
-    }
-
-    .sure {
-      text-align: center;
-      border-radius: 6px;
-      font-size: 17px;
-      background-color: white;
-      height: auto;
-      padding: 15px;
     }
   }
 }
