@@ -316,16 +316,7 @@ export default {
     var preTrue = false;
     if (to.query.tel) {
       // Tool.removeLocalItem('modelInfo');
-      Tool.removeLocalItem("receiverInfo");
-      Tool.removeLocalItem("selectCarData");
-      Tool.removeLocalItem("vehicleInfo");
-      Tool.removeLocalItem("manModelName");
-      Tool.removeLocalItem("manModel");
-      Tool.removeLocalItem("manmodelName");
-      Tool.removeLocalItem("manmodel");
-      Tool.removeLocalItem("userData");
-
-      Tool.removeLocalItem("userInfo");
+      Tool.removeLocalItemAll();
       var tel = to.query.tel;
       var vin = to.query.vin;
       var motorId = to.query.motorId;
@@ -368,16 +359,7 @@ export default {
       );
     } else if (to.query.token) {
       // have token
-      Tool.removeLocalItem("userInfo");
-      // Tool.removeLocalItem('modelInfo');
-      Tool.removeLocalItem("receiverInfo");
-      Tool.removeLocalItem("selectCarData");
-      Tool.removeLocalItem("vehicleInfo");
-      Tool.removeLocalItem("manModelName");
-      Tool.removeLocalItem("manModel");
-      Tool.removeLocalItem("manmodelName");
-      Tool.removeLocalItem("manmodel");
-      Tool.removeLocalItem("userData");
+      Tool.removeLocalItemAll();
       // this.addUservehicle({});
       // this.hasgetedViheche(false); //是否获取过默认车辆，置为初值
       // 这时候获取不到this

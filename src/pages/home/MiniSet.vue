@@ -403,10 +403,12 @@ export default {
     this.getCarList(this.$parent.bisinessItems);
     var recordVersion = Tool.localItem("wy_version");
     if (!recordVersion) {
+      Tool.removeLocalItemAll();
       this.initIntro();
     } else {
       var currentVersion = Tool.version;
       if (recordVersion != currentVersion) {
+        Tool.removeLocalItemAll();
         this.initIntro();
         Tool.localItem("wy_version", "");
       }
