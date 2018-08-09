@@ -149,7 +149,7 @@ export default {
   .page-content {
     background-color: #efefef;
     height: 100%;
-    overflow: auto;
+    // overflow: auto;
     position: relative;
     padding-top: 10px;
     .order-list-container {

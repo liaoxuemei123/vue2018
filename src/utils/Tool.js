@@ -11,7 +11,7 @@ const Tool = {};
 // const target = 'http://10.17.5.162:8080/maintenance-plug/app/';//本地测试环境
 // const target = 'http://47.92.32.44:9990/maintenance-plug/app/';//本地测试环境
 //
-const target = "http://10.0.164.251:8081/maintenance-plug/app/";
+const target = "http://10.0.164.251:8080/maintenance-plug/app/";
 // const target = "https://ssl.mall.changan.com.cn/maintenance-plug/app/";
 // const target = 'http://10.17.12.140:8080/maintenance-plug/app/';//本地测试环境
 // const target = "https://cloud.mall.changan.com.cn/maintenance-plug/app/"; //服务器后端目录
@@ -301,6 +301,22 @@ Tool.removeLocalItem = function(key) {
     return localStorage.removeItem(key);
   }
   return localStorage.removeItem();
+};
+/**
+ *
+ */
+Tool.removeLocalItemAll = function() {
+  Tool.removeLocalItem("modelInfo");
+  Tool.removeLocalItem("receiverInfo");
+  Tool.removeLocalItem("selectCarData");
+  Tool.removeLocalItem("vehicleInfo");
+  Tool.removeLocalItem("manModelName");
+  Tool.removeLocalItem("manModel");
+  Tool.removeLocalItem("manmodelBack");
+  Tool.removeLocalItem("manmodelName");
+  Tool.removeLocalItem("manmodel");
+  Tool.removeLocalItem("userData");
+  Tool.removeLocalItem("userInfo");
 };
 /**
  * @param {Object} obj 需要清空的对象
