@@ -42,7 +42,17 @@
             <span class="telnum">4009990448</span>
           </div>
         </div>
+
       </div>
+      <advert class="ad" v-if="firstmount" :maskClick="mClick">
+        <template slot="advert">
+          <span class="advert">Here might be a page title</span>
+        </template>
+        <template slot="bottom">
+          <span class="bottom">Here might be a page bottom
+          </span>
+        </template>
+      </advert>
     </div>
     <div class="first-animate" v-if="firstAnimate">
       <div class="animate-mask">
@@ -60,7 +70,7 @@ import Tool from "../utils/Tool";
 import MinniSet from "./home/MiniSet";
 import CommercialSet from "./home/CommercialSet";
 import Subscribe from "./home/Subscribe";
-import { Toast, MessageBox } from "mint-ui";
+import { Toast, MessageBox, Swipe, SwipeItem } from "mint-ui";
 import { mapMutations, mapState } from "vuex";
 import Advert from "../components/Advert";
 import store from "../model";
@@ -91,7 +101,8 @@ export default {
       currentView: "",
       firstAnimate: false,
       token: "",
-      defauleCache: true
+      defauleCache: true,
+      firstmount: false
     };
   },
   mixins: [emmiter],
@@ -102,7 +113,9 @@ export default {
     CommercialSet,
     MinniSet,
     Subscribe,
-    Advert
+    Advert,
+    Swipe,
+    SwipeItem
   },
   computed: {
     ...mapState({
@@ -112,6 +125,9 @@ export default {
     })
   },
   methods: {
+    mClick: function(params) {
+      this.firstmount = false;
+    },
     stopPropagationA: function(event) {
       event.stopPropagation();
       // window.open(event.currentTarget.href);
@@ -299,6 +315,9 @@ export default {
     this.bisinessItems.map((v, i) => {
       v.route ? (this.$route.path == v.route ? (this.activeBusiness = i) : "") : "";
     });
+    Tool.post("WbActivityList", {}, data => {});
+    this.firstmount = true;
+
     // 有则存，无则清空确保不会残留数据
     // if(this.$route.query.agentLogo){
     //     // this.setAgentLogo(this.$route.query.agentLogo);

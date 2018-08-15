@@ -1,6 +1,6 @@
 <template>
   <div class="advert-container">
-    <div class="advert-mask">
+    <div class="advert-mask" @click="maskClick">
 
     </div>
     <div class="advert-content">
@@ -9,6 +9,21 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  props: {
+    maskClick: {
+      type: Function,
+      default: function() {
+        return;
+      }
+    }
+  }
+};
+</script>
 <style lang="less" scoped>
 .advert-container {
   width: 100%;
@@ -45,24 +60,17 @@
         height: 100%;
       }
     }
-    // .bottom{
-    //     position:absolute;
-    //     bottom:0;
-    //     height:2rem;
-    //     width:100%;
-    //     background-color:#54d2fc;
-    //     line-height:2rem;
-    //     color:#fff;
-    //     font-size:0.58rem;
-    //     text-align:center;
-    // }
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      height: 2rem;
+      width: 100%;
+      background-color: #54d2fc;
+      line-height: 2rem;
+      color: #fff;
+      font-size: 0.58rem;
+      text-align: center;
+    }
   }
 }
 </style>
-<script>
-export default {
-  data() {
-    return {};
-  }
-};
-</script>
