@@ -218,7 +218,8 @@ export default {
             this.discount = e.wbcPrice;
             break;
           case "折扣":
-            this.discount = Number(this.setDetail.price) - Number(this.setDetail.price) * e.wbcZk;
+            this.discount =
+              Number(this.setDetail.price) - (Number(this.setDetail.price) * e.wbcZk).toFixed(2);
             // 计算会不会有问题
             break;
           default:
@@ -303,7 +304,7 @@ export default {
             : "",
           phone: this.userInfo.tel,
           linkman: this.userInfo.contact,
-          orderPrice: Number(this.setDetail.price) - Number(this.discount),
+          orderPrice: Number(this.setDetail.price) - Number(this.discount).toFixed(2),
           cashcouponId: this.wbcuId,
           costPrice: this.setDetail.price,
           carType: this.modelInfo.vehicleModel + " " + this.modelInfo.displacement,
