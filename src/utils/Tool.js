@@ -11,8 +11,8 @@ const Tool = {};
 // const target = 'http://10.17.5.162:8080/maintenance-plug/app/';//本地测试环境
 // const target = 'http://47.92.32.44:9990/maintenance-plug/app/';//本地测试环境
 //
-// const target = "http://10.0.164.251:8080/maintenance-plug/app/";
-const target = "https://ssl.mall.changan.com.cn/maintenance-plug/app/";
+const target = "http://10.0.164.251:8080/maintenance-plug/app/";
+// const target = "https://ssl.mall.changan.com.cn/maintenance-plug/app/";
 // const target = 'http://10.17.12.140:8080/maintenance-plug/app/';//本地测试环境
 // const target = "https://cloud.mall.changan.com.cn/maintenance-plug/app/"; //服务器后端目录
 const imagePath = "http://service.mall.changan.com.cn/static/"; //静态文件目录

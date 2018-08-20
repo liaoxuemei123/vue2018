@@ -46,12 +46,20 @@
       </div>
       <advert class="ad" v-if="firstmount" :maskClick="mClick">
         <template slot="advert">
-          <span class="advert">Here might be a page title</span>
-        </template>
-        <template slot="bottom">
-          <span class="bottom">Here might be a page bottom
+          <span class="advert">
+            <mt-swipe :auto="0" :show-indicators="false">
+              <mt-swipe-item v-for="(item,index) in activeList" :key="index" @click.native="activeClick(item.wbaUrl)">
+                <div style="width:100%;height:100%"> <img v-bind:src="item.wbaImg1" width="100%" height="100%" /></div>
+              </mt-swipe-item>
+            </mt-swipe>
+            <i class="iconfont icon-close" @click.native="maskClick"></i>
+
           </span>
         </template>
+        <!-- <template slot="bottom">
+          <span class="bottom">Here might be a page bottom
+          </span>
+        </template> -->
       </advert>
     </div>
     <div class="first-animate" v-if="firstAnimate">
@@ -96,6 +104,7 @@ export default {
   data() {
     return {
       bisinessItems: [],
+      activeList: [],
       activeBusiness: 0,
       mode: "push",
       currentView: "",
@@ -125,6 +134,12 @@ export default {
     })
   },
   methods: {
+    activeClick(url) {
+      if (url) {
+        url = encodeURI(url);
+        window.open(url, "_system", "location=no");
+      }
+    },
     mClick: function(params) {
       this.firstmount = false;
     },
@@ -315,7 +330,16 @@ export default {
     this.bisinessItems.map((v, i) => {
       v.route ? (this.$route.path == v.route ? (this.activeBusiness = i) : "") : "";
     });
-    Tool.post("WbActivityList", {}, data => {});
+    Tool.post("WbActivityList", {}, data => {
+      if (data.code == 200) {
+        this.activeList = data.data;
+      } else {
+        Toast({
+          duration: 1000,
+          message: data.msg
+        });
+      }
+    });
     this.firstmount = true;
 
     // 有则存，无则清空确保不会残留数据

@@ -29,6 +29,7 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
+
   .advert-mask {
     width: 100%;
     height: 100%;
@@ -36,6 +37,7 @@ export default {
     position: absolute;
     z-index: 10001;
   }
+
   .advert-content {
     width: 13rem;
     height: 18rem;
@@ -46,9 +48,10 @@ export default {
     z-index: 10003;
     border-radius: 5px;
     background-color: rgba(240, 240, 240, 1);
-    overflow: hidden;
+    // overflow: hidden;
     position: relative;
     border: 1px solid #999;
+
     .advert {
       position: absolute;
       left: 0;
@@ -58,6 +61,13 @@ export default {
       img {
         width: 100%;
         height: 100%;
+      }
+      .icon-close {
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        font-size: 28px;
+        z-index: 99;
       }
     }
     .bottom {
