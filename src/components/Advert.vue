@@ -62,12 +62,17 @@ export default {
         width: 100%;
         height: 100%;
       }
-      .icon-close {
+      .close {
+        display: inline-block;
+        background: url("../assets/close.png") no-repeat center;
+        background-size: 100% 100%;
         position: absolute;
         top: -14px;
         right: -14px;
         font-size: 28px;
         z-index: 99;
+        width: 25px;
+        height: 25px;
       }
     }
     .bottom {

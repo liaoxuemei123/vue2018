@@ -90,6 +90,7 @@ import En from "../utils/Encryption";
 import Xscroller from "../components/Xscroller";
 import { Toast } from "mint-ui";
 import errorMsg from "../utils/error_msg";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -132,6 +133,9 @@ export default {
     password(val) {
       this.iconPwdShow = val.length > 0 ? true : false;
     }
+  },
+  computed: {
+    ...mapState(["geolocation"])
   },
   methods: {
     sendCode() {
@@ -228,42 +232,52 @@ export default {
         });
         return false;
       }
-      Tool.post("wx/loginByCode", { mobile: this.tel, code: this.code }, data => {
-        if (data.success) {
-          if (data.data.result != "0") {
-            Toast({
-              duration: 1000,
-              message: errorMsg[data.data.result]
-            });
-          } else {
-            Toast({
-              duration: 1000,
-              message: "登录成功"
-            });
-            // 登陆成功之后去掉页面倒计时还原所有状态
-          }
-          // self.$router.go(-2);
-          Tool.localItem("userInfo", data.data);
-          this.afterSuccess();
-          Tool.removeLocalItem("oid");
-          if (self.$route.params.to) {
-            if (self.$route.params.preCtoken) {
-              self.$router.push({
-                path: self.$route.params.to,
-                query: { token: data.data.token }
+      Tool.post(
+        "wx/loginByCode",
+        {
+          mobile: this.tel,
+          code: this.code,
+          gpsLongitude: this.geolocation.point.lon,
+          gpsLatitude: this.geolocation.point.lat
+        },
+        data => {
+          if (data.success) {
+            if (data.data.result != "0") {
+              Toast({
+                duration: 1000,
+                message: errorMsg[data.data.result]
               });
-            } else self.$router.push({ path: self.$route.params.to });
+            } else {
+              Toast({
+                duration: 1000,
+                message: "登录成功"
+              });
+              // 登陆成功之后去掉页面倒计时还原所有状态
+            }
+            // self.$router.go(-2);
+            Tool.localItem("userInfo", data.data);
+            this.afterSuccess();
+            Tool.removeLocalItem("oid");
+            if (self.$route.params.to) {
+              if (self.$route.params.preCtoken) {
+                self.$router.push({
+                  path: self.$route.params.to,
+                  query: { token: data.data.token }
+                });
+              } else self.$router.push({ path: self.$route.params.to });
+            } else {
+              self.$router.push({ name: "maintainset" });
+              Tool.localItem("loadActivity", true);
+            }
           } else {
-            self.$router.push({ name: "maintainset" });
+            Toast({
+              duration: 1000,
+              message: "短信验证码验证失败"
+            });
+            self.forgetPassword = true;
           }
-        } else {
-          Toast({
-            duration: 1000,
-            message: "短信验证码验证失败"
-          });
-          self.forgetPassword = true;
         }
-      });
+      );
     },
     afterSuccess() {
       clearInterval(this.timer);
@@ -306,7 +320,9 @@ export default {
             mobile: this.tel,
             password: pData.password,
             mod: pData.mod,
-            additional: pData.additional
+            additional: pData.additional,
+            gpsLongitude: this.geolocation.point.lon,
+            gpsLatitude: this.geolocation.point.lat
           },
           data => {
             if (data.success) {
@@ -334,6 +350,7 @@ export default {
                 } else self.$router.push({ path: self.$route.params.to });
               } else {
                 self.$router.push({ name: "maintainset" });
+                Tool.localItem("loadActivity", true);
               }
             } else {
               Toast({

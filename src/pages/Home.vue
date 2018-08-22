@@ -44,16 +44,16 @@
         </div>
 
       </div>
-      <advert class="ad" v-if="firstmount" :maskClick="mClick">
+      <!-- && activeList.length>0 -->
+      <advert class="ad" v-if="firstmount " :maskClick="mClick">
         <template slot="advert">
           <span class="advert">
-            <mt-swipe :auto="0" :show-indicators="false">
+            <mt-swipe :auto="0" :show-indicators="true">
               <mt-swipe-item v-for="(item,index) in activeList" :key="index" @click.native="activeClick(item.wbaUrl)">
                 <div style="width:100%;height:100%"> <img v-bind:src="item.wbaImg1" width="100%" height="100%" /></div>
               </mt-swipe-item>
             </mt-swipe>
-            <i class="iconfont icon-close" @click.native="maskClick"></i>
-
+            <i class="close" @click="mClick"></i>
           </span>
         </template>
         <!-- <template slot="bottom">
@@ -127,11 +127,14 @@ export default {
     SwipeItem
   },
   computed: {
-    ...mapState({
-      wbyQd: ({ pageconfig }) => pageconfig.qd,
-      orderUnPayCount: ({ mixin }) => mixin.orderUnPayCount,
-      config: ({ packageinfo }) => packageinfo.config
-    })
+    ...mapState(
+      {
+        wbyQd: ({ pageconfig }) => pageconfig.qd,
+        orderUnPayCount: ({ mixin }) => mixin.orderUnPayCount,
+        config: ({ packageinfo }) => packageinfo.config
+      },
+      ["geolocation"]
+    )
   },
   methods: {
     activeClick(url) {
@@ -168,6 +171,20 @@ export default {
     },
     userCenter: function() {
       this.$router.push({ name: "usercenter" });
+    },
+    getActi() {
+      var userId = Tool.getUserInfo("userId");
+      Tool.post("WbActivityList", { userId: userId }, data => {
+        if (data.code == 200) {
+          this.activeList = data.data;
+        } else {
+          Toast({
+            duration: 1000,
+            message: data.msg
+          });
+        }
+      });
+      this.firstmount = true;
     },
     getBisinessList: function() {
       var qd = this.$route.query.wbyQd;
@@ -259,6 +276,10 @@ export default {
     // })
   },
   activated: function() {
+    if (Tool.localItem("loadActivity")) {
+      this.getActi();
+      Tool.removeLocalItem("loadActivity");
+    }
     if (Tool.localItem("isUserCenterBack")) {
       this.manmodel = Tool.localItem("manmodel") ? JSON.parse(Tool.localItem("manmodel")) : "";
       if (this.bisinessItems.length == 1) {
@@ -330,18 +351,7 @@ export default {
     this.bisinessItems.map((v, i) => {
       v.route ? (this.$route.path == v.route ? (this.activeBusiness = i) : "") : "";
     });
-    Tool.post("WbActivityList", {}, data => {
-      if (data.code == 200) {
-        this.activeList = data.data;
-      } else {
-        Toast({
-          duration: 1000,
-          message: data.msg
-        });
-      }
-    });
-    this.firstmount = true;
-
+    this.getActi();
     // 有则存，无则清空确保不会残留数据
     // if(this.$route.query.agentLogo){
     //     // this.setAgentLogo(this.$route.query.agentLogo);
@@ -413,7 +423,9 @@ export default {
         "queryUserInfo",
         {
           userToken: preToken,
-          oid: preOid
+          oid: preOid,
+          gpsLongitude: this.geolocation.point.lon,
+          gpsLatitude: this.geolocation.point.lat
         },
         data => {
           if (data.result != -1) {
