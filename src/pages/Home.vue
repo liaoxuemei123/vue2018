@@ -45,7 +45,7 @@
 
       </div>
       <!-- && activeList.length>0 -->
-      <advert class="ad" v-if="firstmount " :maskClick="mClick">
+      <advert class="ad" v-if="firstmount && activeList.length>0" :maskClick="mClick">
         <template slot="advert">
           <span class="advert">
             <mt-swipe :auto="0" :show-indicators="true">
